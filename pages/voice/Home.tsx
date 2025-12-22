@@ -99,16 +99,16 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
           <button 
             onClick={() => onNavigate(Page.TTS)} 
             disabled={!text.trim()}
-            className={`px-10 h-12 rounded-full font-medium text-[13px] uppercase tracking-[0.2em] shadow-2xl transition-all flex items-center gap-3 ${!text.trim() ? 'bg-white/5 text-white/20' : 'bg-gradient-to-tr from-pink-500 to-yellow-500 text-white hover:scale-[1.03] active:scale-[0.97]'}`}
+            className={`px-10 h-12 rounded-full font-medium text-[13px] uppercase tracking-[0.2em] shadow-2xl transition-all flex items-center gap-3 ${!text.trim() ? 'bg-white/5 text-white/20' : 'bg-gradient-to-tr from-blue-600 to-cyan-500 text-white hover:scale-[1.03] active:scale-[0.97] shadow-blue-500/20'}`}
           >
-            <Zap size={18} fill="currentColor" /> {t('generate_audio')}
+            <Zap size={18} fill="currentColor" /> {t('go_to_tts')}
           </button>
         </div>
       </GlassCard>
 
       <div className="space-y-4">
         <div className="flex justify-between items-center px-2">
-          <h2 className="text-xl font-medium text-white uppercase tracking-tight">{t('find_voice')}</h2>
+          <h2 className="text-xl font-normal text-white uppercase tracking-tight">{t('find_voice')}</h2>
           <button onClick={() => onNavigate(Page.PRESET)} className="text-[11px] font-normal uppercase tracking-widest text-white/40 hover:text-white flex items-center gap-2 transition-all">
             {t('find_more')} <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
           </button>
@@ -137,7 +137,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                 <div className="shrink-0">
                    <button 
                      onClick={() => { setSelectedVoice(voice); onNavigate(Page.TTS); }} 
-                     className={`px-3 py-1.5 rounded-lg text-[10px] font-medium uppercase tracking-wider transition-all border ${isSelected ? 'bg-gradient-to-tr from-pink-500 to-yellow-500 border-transparent text-white' : 'bg-white/5 border-white/10 text-white/40 hover:text-white hover:bg-white/10'}`}
+                     className={`px-3 py-1.5 rounded-lg text-[10px] font-medium uppercase tracking-wider transition-all border ${isSelected ? 'bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent text-white' : 'bg-white/5 border-white/10 text-white/40 hover:text-white hover:bg-white/10'}`}
                    >
                      {isSelected ? '已选' : '使用'}
                    </button>
@@ -162,13 +162,13 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
            <div className="absolute inset-0" onClick={() => setShowVoiceModal(false)}></div>
            <div className="relative w-[1000px] h-[85vh] bg-[#0c0c0e] border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-500">
               
-              <div className="px-10 py-8 border-b border-white/10 flex justify-between items-center bg-[#0e0e11]">
-                <h3 className="text-2xl font-medium text-white uppercase tracking-widest">选择音色库</h3>
-                <button onClick={() => setShowVoiceModal(false)} className="text-white/20 hover:text-white p-3 hover:bg-white/5 rounded-xl transition-all"><X size={32} /></button>
+              <div className="px-6 py-3 border-b border-white/10 flex justify-between items-center bg-[#0e0e11]">
+                <h3 className="text-xl font-medium text-white uppercase tracking-widest">选择音色库</h3>
+                <button onClick={() => setShowVoiceModal(false)} className="text-white/20 hover:text-white p-2 hover:bg-white/5 rounded-xl transition-all"><X size={24} /></button>
               </div>
 
               <div className="flex-1 flex flex-col bg-[#08080a] overflow-hidden">
-                   <div className="px-10 py-5 border-b border-white/5 flex gap-12 items-center bg-[#050507]">
+                   <div className="px-6 py-2 border-b border-white/5 flex gap-12 items-center bg-[#050507]">
                       {[
                         { id: 'preset', label: '预设声音' },
                         { id: 'custom', label: '自定义声音' }
@@ -188,32 +188,32 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                          <input 
                            value={modalSearch}
                            onChange={(e) => setModalSearch(e.target.value)}
-                           className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3 pl-14 pr-6 text-white text-base font-normal focus:border-white/20 outline-none placeholder:text-white/10 transition-all" 
+                           className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-2 pl-12 pr-6 text-white text-sm font-normal focus:border-white/20 outline-none placeholder:text-white/10 transition-all" 
                            placeholder="关键词搜索..." 
                          />
                       </div>
                    </div>
 
-                   <div className="flex-1 overflow-y-auto p-10 custom-scrollbar">
-                      <div className="grid grid-cols-2 xl:grid-cols-3 gap-6">
+                   <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
+                      <div className="grid grid-cols-2 xl:grid-cols-3 gap-3">
                          {filteredModalVoices.map(voice => {
                             const isSelected = selectedVoice.id === voice.id;
                             return (
                               <div 
                                 key={voice.id} 
-                                className={`group flex items-center p-5 rounded-xl transition-all border ${isSelected ? 'bg-white/10 border-white/20' : 'bg-white/[0.02] border-transparent hover:border-white/10'}`}
+                                className={`group flex items-center p-3 rounded-xl transition-all border ${isSelected ? 'bg-white/10 border-white/20' : 'bg-white/[0.02] border-transparent hover:border-white/10'}`}
                               >
-                                <div className="relative shrink-0 mr-5">
-                                    <img src={voice.avatarUrl} alt={voice.name} className="w-14 h-14 rounded-xl object-cover bg-black/20 border border-white/10 shadow-lg" />
+                                <div className="relative shrink-0 mr-4">
+                                    <img src={voice.avatarUrl} alt={voice.name} className="w-12 h-12 rounded-xl object-cover bg-black/20 border border-white/10 shadow-lg" />
                                 </div>
-                                <div className="flex-1 min-w-0 mr-5">
-                                   <h3 className={`text-base font-medium truncate tracking-tight ${isSelected ? 'text-spark-accent' : 'text-white'}`}>{voice.name}</h3>
-                                   <p className="text-[11px] text-white/40 uppercase font-normal tracking-widest mt-1 truncate">{translateCategory(voice.category)}</p>
+                                <div className="flex-1 min-w-0 mr-4">
+                                   <h3 className={`text-sm font-medium truncate tracking-tight ${isSelected ? 'text-spark-accent' : 'text-white'}`}>{voice.name}</h3>
+                                   <p className="text-[10px] text-white/40 uppercase font-normal tracking-widest mt-0.5 truncate">{translateCategory(voice.category)}</p>
                                 </div>
                                 <div className="shrink-0">
                                   <button 
                                     onClick={() => { setSelectedVoice(voice); setShowVoiceModal(false); }} 
-                                    className={`px-5 py-2 rounded-lg text-xs font-medium uppercase tracking-widest transition-all border ${isSelected ? 'bg-gradient-to-tr from-pink-500 to-yellow-500 text-white' : 'bg-white/5 border-white/10 text-white/40 hover:text-white'}`}
+                                    className={`px-4 py-1.5 rounded-lg text-[10px] font-medium uppercase tracking-widest transition-all border ${isSelected ? 'bg-gradient-to-tr from-blue-600 to-cyan-500 text-white' : 'bg-white/5 border-white/10 text-white/40 hover:text-white'}`}
                                   >
                                     {isSelected ? '已选' : '选择'}
                                   </button>

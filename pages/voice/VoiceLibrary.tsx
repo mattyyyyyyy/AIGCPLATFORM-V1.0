@@ -227,7 +227,7 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
                       <div className="flex flex-col items-end gap-1.5">
                         <button 
                           onClick={() => { setSelectedVoice(voice); onNavigate(Page.TTS); }} 
-                          className={`px-3 py-1 rounded-md text-[10px] font-medium tracking-wide transition-all border shrink-0 ${isSelected ? 'bg-gradient-to-tr from-pink-500 to-yellow-500 border-transparent text-white' : 'bg-white/5 border-white/10 text-white/50 hover:text-white hover:bg-white/10'}`}
+                          className={`px-3 py-1 rounded-md text-[10px] font-medium tracking-wide transition-all border shrink-0 ${isSelected ? 'bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent text-white' : 'bg-white/5 border-white/10 text-white/50 hover:text-white hover:bg-white/10'}`}
                         >
                           {isSelected ? '已选' : '使用'}
                         </button>

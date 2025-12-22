@@ -14,7 +14,7 @@ const JDOLogo = memo(() => (
       className="w-8 h-8 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]"
     />
     <span 
-      className="font-sans font-black text-2xl text-white tracking-tighter drop-shadow-lg select-none leading-none"
+      className="font-sans font-medium text-2xl text-white tracking-tighter drop-shadow-lg select-none leading-none"
     >
       JDO
     </span>
@@ -57,16 +57,16 @@ const Navbar: React.FC = () => {
          <JDOLogo />
       </div>
       
-      {/* Center: Unified Modular Switcher (Text only) */}
+      {/* Center: Unified Modular Switcher (Rectangular with rounded corners) */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center z-50 pointer-events-auto">
-         <div className="flex items-center gap-8 px-8 py-2.5 rounded-full bg-white/[0.04] backdrop-blur-lg border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+         <div className="flex items-center gap-8 px-8 py-2.5 rounded-xl bg-white/[0.04] backdrop-blur-lg border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
             {menuItems.map((item) => {
               const isActive = currentModule === item.id;
               return (
                 <button 
                   key={item.id}
                   onClick={() => handleModuleClick(item.id)}
-                  className={`relative py-1 text-[14px] font-black uppercase tracking-[0.2em] transition-all duration-500 leading-none whitespace-nowrap ${
+                  className={`relative py-1 text-[14px] font-medium uppercase tracking-[0.2em] transition-all duration-500 leading-none whitespace-nowrap ${
                     isActive 
                       ? 'text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.6)]' 
                       : 'text-white/20 hover:text-white/50'
@@ -82,7 +82,7 @@ const Navbar: React.FC = () => {
       {/* Right: Language Switcher */}
       <div className="relative z-50 flex items-center justify-end gap-6 min-w-[200px] pointer-events-auto">
         <DropdownMenu options={langOptions} className="w-fit" menuClassName="right-0">
-          <div className="flex items-center gap-2 px-2 py-1 font-black uppercase tracking-[0.2em] text-[11px]">
+          <div className="flex items-center gap-2 px-2 py-1 font-medium uppercase tracking-[0.2em] text-[11px]">
             <Globe size={16} className="text-white/40" />
             <span>{lang === 'CN' ? 'ZH' : 'EN'}</span>
           </div>

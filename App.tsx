@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 
@@ -77,13 +78,42 @@ const AppContent: React.FC = () => {
     );
   };
 
+  const isPromptModule = currentModule === AppModule.PROMPT_LIBRARY;
+
   return (
-    <div className="min-h-screen bg-spark-bg text-white font-sans selection:bg-spark-accent/40 selection:text-white overflow-hidden relative">
-      {/* Immersive Dark Background Layers */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#050505] via-[#0a0a0f] to-[#050505]" />
-          <div className="absolute top-[-10%] left-[-10%] w-[65vw] h-[65vw] rounded-full bg-spark-accent/5 blur-[120px] animate-pulse-slow" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[55vw] h-[55vw] rounded-full bg-spark-amber/5 blur-[100px] animate-pulse-slow" />
+    <div className="min-h-screen bg-spark-bg text-white font-sans selection:bg-spark-accent/40 selection:text-white overflow-hidden relative transition-colors duration-1000">
+      {/* Immersive Dynamic Dark Background Layers */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+          {/* Main Rich Gradient Background - Switch based on module */}
+          <div 
+             className={`absolute inset-0 bg-gradient-to-b transition-colors duration-1000 ease-in-out ${
+               isPromptModule 
+                 ? 'from-[#2a1205] via-[#050505] to-black'  // Warm/Orange tint for Prompt
+                 : 'from-[#0f172a] via-[#050505] to-black'  // Cool/Blue tint for Voice
+             }`} 
+          />
+          
+          {/* Animated Gradient Orbs - Switch colors based on module */}
+          <div 
+             className={`absolute top-[-20%] left-[-10%] w-[80vw] h-[80vw] rounded-full blur-[120px] animate-pulse-slow mix-blend-screen transition-colors duration-1000 ${
+               isPromptModule ? 'bg-orange-900/10' : 'bg-blue-900/10'
+             }`} 
+          />
+          <div 
+             className={`absolute bottom-[-20%] right-[-10%] w-[70vw] h-[70vw] rounded-full blur-[100px] animate-pulse-slow mix-blend-screen transition-colors duration-1000 ${
+                isPromptModule ? 'bg-pink-900/10' : 'bg-indigo-900/10'
+             }`} 
+             style={{ animationDelay: '2s' }} 
+          />
+          <div 
+             className={`absolute top-[40%] left-[30%] w-[40vw] h-[40vw] rounded-full blur-[150px] animate-pulse-slow mix-blend-screen transition-colors duration-1000 ${
+                isPromptModule ? 'bg-yellow-900/5' : 'bg-purple-900/5'
+             }`} 
+             style={{ animationDelay: '4s' }} 
+          />
+          
+          {/* Moving Mesh Gradient Overlay */}
+          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03),transparent_70%)]" />
       </div>
 
       <Navbar />

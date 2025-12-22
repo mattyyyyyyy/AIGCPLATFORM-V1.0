@@ -50,7 +50,7 @@ const VoiceSidebar: React.FC<VoiceSidebarProps> = ({ currentPage, onNavigate }) 
             {group.title !== '主菜单' && (
               <div className="flex items-center gap-3 px-1 mb-3 mt-2 first:mt-0 select-none pointer-events-none">
                 <div className="h-[1px] flex-1 bg-white/15 shadow-[0_0_6px_rgba(255,255,255,0.2)]" />
-                <span className="text-[14px] font-black text-white uppercase tracking-[0.12em] drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] whitespace-nowrap">
+                <span className="text-[14px] font-medium text-white uppercase tracking-[0.12em] drop-shadow-[0_0_6px_rgba(255,255,255,0.6)] whitespace-nowrap">
                   {t(getTranslationKey(group.id))}
                 </span>
                 <div className="h-[1px] flex-1 bg-white/15 shadow-[0_0_6px_rgba(255,255,255,0.2)]" />
@@ -65,7 +65,7 @@ const VoiceSidebar: React.FC<VoiceSidebarProps> = ({ currentPage, onNavigate }) 
                     key={item.id}
                     onClick={() => onNavigate(item.id as Page)}
                     className={`
-                      w-full flex items-center gap-4 px-4 py-2.5 rounded-lg transition-all duration-200 text-[13px] font-bold group relative
+                      w-full flex items-center gap-4 px-4 py-2.5 rounded-lg transition-all duration-200 text-[13px] font-medium group relative
                       ${isActive 
                         ? 'bg-white/5 text-white border border-white/10 shadow-[0_2px_10px_rgba(0,0,0,0.1)]' 
                         : 'text-white/30 hover:text-white hover:bg-white/[0.02] border border-transparent'}

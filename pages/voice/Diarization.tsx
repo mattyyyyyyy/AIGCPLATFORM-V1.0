@@ -25,6 +25,8 @@ import { analyzeConversation, arrayBufferToBase64 } from '../../services/geminiS
 import { motion, AnimatePresence } from 'framer-motion';
 import { TextShimmerWave } from '../../components/TextShimmerWave';
 import { StarButton } from '../../components/StarButton';
+import { DynamicVoiceButton } from '../../components/DynamicVoiceButton';
+import { SciFiLoader } from '../../components/SciFiLoader';
 
 const SIMULATED_DIALOG = [
   { spk: 'spk_known_1', text: '大家好，欢迎参加今天的语音技术研讨会。我们将探讨最新的声纹识别进展。' },
@@ -195,13 +197,13 @@ const Diarization: React.FC = () => {
       {/* Title Section */}
       <div className="mb-6 shrink-0 flex items-center justify-between">
         <div>
-           <h1 className="text-2xl font-black text-white tracking-tight uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">声纹分离</h1>
-           <p className="text-[11px] font-bold text-white/50 uppercase tracking-[0.2em] mt-1">AI 实时说话人转录与身份自动识别</p>
+           <h1 className="text-2xl font-light text-white tracking-tight uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]">声纹分离</h1>
+           <p className="text-[11px] font-normal text-white/50 uppercase tracking-[0.2em] mt-1">AI 实时说话人转录与身份自动识别</p>
         </div>
         {isRecording && (
           <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 animate-in zoom-in-95">
              <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
-             <span className="font-mono text-sm font-black text-white tabular-nums tracking-widest">
+             <span className="font-mono text-sm font-medium text-white tabular-nums tracking-widest">
                LIVE • {formatTime(recordTime)}
              </span>
           </div>
@@ -212,16 +214,17 @@ const Diarization: React.FC = () => {
       <div className="flex-1 flex flex-col lg:flex-row gap-6 overflow-hidden min-h-0 items-stretch">
         <div className="flex-1 flex flex-col min-w-0 bg-[#0f0f11] rounded-2xl border border-white/5 relative shadow-2xl overflow-hidden">
             
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-10 space-y-8 custom-scrollbar scroll-smooth">
-               {isProcessing ? (
-                 <div className="h-full flex flex-col items-center justify-center space-y-6">
-                    <div className="relative">
-                       <Loader2 className="w-16 h-16 text-spark-accent animate-spin" />
-                       <div className="absolute inset-0 flex items-center justify-center"><Cpu size={24} className="text-spark-accent/40" /></div>
-                    </div>
-                    <TextShimmerWave className="text-sm font-black text-white/60 uppercase tracking-widest" children="正在深度解析多角色音频..." />
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-10 space-y-8 custom-scrollbar scroll-smooth relative">
+               {isProcessing && <SciFiLoader text="正在解析中..." />}
+               
+               {!isProcessing && segments.length === 0 && !isRecording && (
+                 <div className="h-full flex flex-col items-center justify-center opacity-10">
+                    <Users size={80} />
+                    <p className="text-[12px] font-medium uppercase tracking-[0.4em] mt-6 text-center leading-loose">暂无对话记录<br/>请上传音频或开始实时识别</p>
                  </div>
-               ) : (segments.length > 0 || isRecording) ? (
+               )}
+
+               {!isProcessing && (segments.length > 0 || isRecording) && (
                  <>
                    {segments.map((seg) => {
                      const speaker = speakerRegistry[seg.speakerId] || { id: seg.speakerId, name: '未知', color: 'bg-gray-700', isKnown: false };
@@ -229,9 +232,9 @@ const Diarization: React.FC = () => {
                        <div key={seg.id} className="group animate-in slide-in-from-bottom-2 fade-in">
                           <div className="flex-1">
                              <div className="flex items-baseline gap-3 mb-2">
-                                <span className="font-black text-white text-lg tracking-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">{speaker.name}</span>
-                                <span className="text-[10px] font-bold text-white/20 tabular-nums bg-white/5 px-2 py-0.5 rounded">{formatTime(seg.startTime || 0)}</span>
-                                {speaker.isKnown && <div className="px-2 py-0.5 rounded bg-spark-accent/10 border border-spark-accent/20 text-spark-accent text-[9px] font-black uppercase tracking-tighter shadow-sm shadow-spark-accent/10">已验证身份</div>}
+                                <span className="font-normal text-white text-lg tracking-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]">{speaker.name}</span>
+                                <span className="text-[10px] font-medium text-white/20 tabular-nums bg-white/5 px-2 py-0.5 rounded">{formatTime(seg.startTime || 0)}</span>
+                                {speaker.isKnown && <div className="px-2 py-0.5 rounded bg-spark-accent/10 border border-spark-accent/20 text-spark-accent text-[9px] font-medium uppercase tracking-tighter shadow-sm shadow-spark-accent/10">已验证身份</div>}
                              </div>
                              <div className="text-white/80 text-base leading-relaxed bg-white/[0.03] p-5 rounded-2xl border border-white/5 shadow-inner group-hover:bg-white/[0.05] transition-colors">
                                 {seg.text}
@@ -251,11 +254,6 @@ const Diarization: React.FC = () => {
                      </div>
                    )}
                  </>
-               ) : (
-                 <div className="h-full flex flex-col items-center justify-center opacity-10">
-                    <Users size={80} />
-                    <p className="text-[12px] font-bold uppercase tracking-[0.4em] mt-6 text-center leading-loose">暂无对话记录<br/>请上传音频或开始实时识别</p>
-                 </div>
                )}
             </div>
 
@@ -269,7 +267,7 @@ const Diarization: React.FC = () => {
                 >
                   <div className="bg-red-500/10 border border-red-500/20 backdrop-blur-xl px-6 py-4 rounded-xl flex items-center gap-4 text-red-400 shadow-2xl">
                     <AlertCircle size={20} />
-                    <span className="text-sm font-bold leading-relaxed">{error}</span>
+                    <span className="text-sm font-medium leading-relaxed">{error}</span>
                     <button onClick={() => setError(null)} className="ml-auto hover:text-white p-1 transition-colors"><X size={16} /></button>
                   </div>
                 </motion.div>
@@ -280,13 +278,13 @@ const Diarization: React.FC = () => {
                 <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 shadow-inner">
                    <button 
                       onClick={() => {setActiveSubTab('upload'); setIsRecording(false);}} 
-                      className={`px-5 py-2 rounded-lg text-[13px] font-bold tracking-widest transition-all uppercase flex items-center gap-2.5 ${activeSubTab === 'upload' ? 'bg-white/10 text-white shadow-lg' : 'text-white/40 hover:text-white/70'}`}
+                      className={`px-5 py-2 rounded-lg text-[13px] font-medium tracking-widest transition-all uppercase flex items-center gap-2.5 ${activeSubTab === 'upload' ? 'bg-white/10 text-white shadow-lg' : 'text-white/40 hover:text-white/70'}`}
                    >
                       <FileAudio size={16} /> 离线分析
                    </button>
                    <button 
                       onClick={() => setActiveSubTab('record')} 
-                      className={`px-5 py-2 rounded-lg text-[13px] font-bold tracking-widest transition-all uppercase flex items-center gap-2.5 ${activeSubTab === 'record' ? 'bg-white/10 text-white shadow-lg' : 'text-white/40 hover:text-white/70'}`}
+                      className={`px-5 py-2 rounded-lg text-[13px] font-medium tracking-widest transition-all uppercase flex items-center gap-2.5 ${activeSubTab === 'record' ? 'bg-white/10 text-white shadow-lg' : 'text-white/40 hover:text-white/70'}`}
                    >
                       <Mic size={16} /> 实时会话
                    </button>
@@ -298,12 +296,12 @@ const Diarization: React.FC = () => {
                    {activeSubTab === 'upload' && (
                      <>
                         {!file ? (
-                          <button onClick={() => fileInputRef.current?.click()} className="px-6 py-2.5 rounded-xl border border-white/10 text-white font-bold uppercase tracking-widest text-[13px] flex items-center gap-2.5 transition-all hover:bg-white/5 hover:border-white/20">
+                          <button onClick={() => fileInputRef.current?.click()} className="px-6 py-2.5 rounded-xl border border-white/10 text-white font-medium uppercase tracking-widest text-[13px] flex items-center gap-2.5 transition-all hover:bg-white/5 hover:border-white/20">
                             <Plus size={16} /> 选择音频
                           </button>
                         ) : (
                           <div className="flex items-center gap-3 px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 max-w-[180px] shadow-sm">
-                             <span className="text-[12px] font-bold text-white/60 truncate">{file.name}</span>
+                             <span className="text-[12px] font-medium text-white/60 truncate">{file.name}</span>
                              <button onClick={() => setFile(null)} className="text-white/20 hover:text-red-500 transition-colors shrink-0"><X size={16}/></button>
                           </div>
                         )}
@@ -314,24 +312,21 @@ const Diarization: React.FC = () => {
                         >
                            {isProcessing ? (
                              <div className="flex items-center gap-3">
-                               <Loader2 className="w-4 h-4 animate-spin" />
-                               <span className="text-[13px] font-bold tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">处理中...</span>
+                               {/* Loader text is now handled by SciFiLoader overlay, button just shows status */}
+                               <span className="text-[13px] font-medium tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">处理中...</span>
                              </div>
-                           ) : <div className="flex items-center gap-2.5 font-bold tracking-widest">开始深度分离</div>}
+                           ) : <div className="flex items-center gap-2.5 font-medium tracking-widest">开始深度分离</div>}
                         </StarButton>
                      </>
                    )}
 
                    {activeSubTab === 'record' && (
-                     <StarButton 
-                        onClick={() => setIsRecording(!isRecording)} 
-                        className="min-w-[180px] h-10"
-                     >
-                        <div className="flex items-center gap-2.5 font-bold tracking-widest">
-                          {isRecording ? <Square size={14} fill="currentColor" /> : <Mic size={14} />}
-                          {isRecording ? '停止识别' : '开始识别'}
-                        </div>
-                     </StarButton>
+                     <DynamicVoiceButton
+                       onStart={() => setIsRecording(true)}
+                       onStop={() => setIsRecording(false)}
+                       isRecording={isRecording}
+                       className="min-w-[180px]"
+                     />
                    )}
                 </div>
             </div>
@@ -341,7 +336,7 @@ const Diarization: React.FC = () => {
            <div className="h-12 border-b border-white/5 flex items-center justify-between px-6 bg-white/[0.02] shrink-0">
               <div className="flex items-center gap-3">
                 <Settings2 size={16} className="text-spark-accent" />
-                <span className="text-[16px] font-black text-white uppercase tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">声纹库中心</span>
+                <span className="text-[16px] font-normal text-white uppercase tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">声纹库中心</span>
               </div>
            </div>
 
@@ -370,14 +365,14 @@ const Diarization: React.FC = () => {
                                    value={tempName} 
                                    onChange={(e) => setTempName(e.target.value)} 
                                    onKeyDown={(e) => e.key === 'Enter' && saveSpeakerName()} 
-                                   className="w-full bg-black/60 border border-white/20 rounded-lg px-2.5 py-1.5 text-sm font-bold text-white outline-none focus:border-spark-accent/50" 
+                                   className="w-full bg-black/60 border border-white/20 rounded-lg px-2.5 py-1.5 text-sm font-medium text-white outline-none focus:border-spark-accent/50" 
                                  />
                                  <button onClick={saveSpeakerName} className="p-2 bg-spark-accent rounded-lg text-white shadow-lg"><Check size={14}/></button>
                               </div>
                             ) : (
                               <div>
                                  <div className="flex items-center justify-between">
-                                    <span className="text-[15px] font-black text-white truncate max-w-[120px]">{speaker.name}</span>
+                                    <span className="text-[15px] font-normal text-white truncate max-w-[120px]">{speaker.name}</span>
                                     <div className="flex items-center opacity-0 group-hover/card:opacity-100 transition-opacity gap-1">
                                       <button onClick={() => {setEditingSpeakerId(speaker.id); setTempName(speaker.name)}} className="p-1.5 text-white/30 hover:text-white hover:bg-white/10 rounded-md transition-all"><Edit2 size={12}/></button>
                                       <button onClick={(e) => handleRemoveSpeaker(speaker.id, e)} className="p-1.5 text-white/30 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-all"><Trash2 size={12}/></button>
@@ -385,13 +380,13 @@ const Diarization: React.FC = () => {
                                  </div>
                                  <div className="mt-1 flex items-center justify-between">
                                     {speaker.isKnown ? (
-                                      <span className="text-[10px] font-black text-spark-accent uppercase flex items-center gap-1 tracking-widest">
+                                      <span className="text-[10px] font-medium text-spark-accent uppercase flex items-center gap-1 tracking-widest">
                                         <Check size={12} strokeWidth={4} /> 已验证
                                       </span>
                                     ) : (
-                                      <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">NEW DISCOVERY</span>
+                                      <span className="text-[10px] font-medium text-white/30 uppercase tracking-widest">NEW DISCOVERY</span>
                                     )}
-                                    {activeInTranscript && isRecording && <span className="text-[8px] font-black text-spark-accent animate-pulse uppercase tracking-widest ml-auto bg-spark-accent/10 px-1.5 py-0.5 rounded border border-spark-accent/20">SPEAKER ACTIVE</span>}
+                                    {activeInTranscript && isRecording && <span className="text-[8px] font-medium text-spark-accent animate-pulse uppercase tracking-widest ml-auto bg-spark-accent/10 px-1.5 py-0.5 rounded border border-spark-accent/20">SPEAKER ACTIVE</span>}
                                  </div>
                               </div>
                             )}
@@ -403,13 +398,13 @@ const Diarization: React.FC = () => {
               ) : (
                 <div className="h-full flex flex-col items-center justify-center opacity-5 text-center p-8 space-y-4">
                   <Fingerprint size={40} />
-                  <p className="text-[11px] font-black uppercase tracking-[0.2em] leading-relaxed">等待声纹提取</p>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.2em] leading-relaxed">等待声纹提取</p>
                 </div>
               )}
            </div>
            
            <div className="p-5 border-t border-white/5 bg-white/[0.01]">
-              <div className="flex items-center gap-2.5 text-[10px] text-white/50 font-bold uppercase tracking-widest">
+              <div className="flex items-center gap-2.5 text-[10px] text-white/50 font-medium uppercase tracking-widest">
                  <div className="w-1.5 h-1.5 rounded-full bg-spark-accent shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
                  <span>重命名身份后将持久保存</span>
               </div>

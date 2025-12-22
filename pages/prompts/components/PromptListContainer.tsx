@@ -239,7 +239,7 @@ const PromptListContainer: React.FC<PromptListContainerProps> = ({
                 className="group bg-[#0f0f11] border border-white/5 hover:border-spark-amber/40 rounded-xl p-6 transition-all duration-500 hover:bg-[#161618] hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col h-[420px] cursor-pointer relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-spark-amber/5 blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity" />
-                <h3 className="text-xl font-black text-white group-hover:text-spark-amber truncate transition-colors leading-tight mb-4 relative z-10">{item.title}</h3>
+                <h3 className="text-xl font-medium text-white group-hover:text-spark-amber truncate transition-colors leading-tight mb-4 relative z-10">{item.title}</h3>
                 <div className="flex-1 relative overflow-hidden rounded-lg bg-black/40 border border-white/5 mb-4 group-hover:border-white/10 transition-all duration-500">
                   {item.imageUrl ? (
                     <img src={item.imageUrl} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt={item.title} />
@@ -256,7 +256,7 @@ const PromptListContainer: React.FC<PromptListContainerProps> = ({
                    {item.tags.slice(0, 3).map(tag => (
                      <Tag key={tag}>#{tag}</Tag>
                    ))}
-                   {item.tags.length > 3 && <span className="text-[9px] font-bold text-white/20">+ {item.tags.length - 3}</span>}
+                   {item.tags.length > 3 && <span className="text-[9px] font-medium text-white/20">+ {item.tags.length - 3}</span>}
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t border-white/5 shrink-0 relative z-10">
@@ -276,7 +276,7 @@ const PromptListContainer: React.FC<PromptListContainerProps> = ({
         ) : (
           <div className="flex flex-col items-center justify-center h-80 text-white/10 animate-in fade-in zoom-in-95">
             <Compass size={64} className="mb-6 opacity-10" />
-            <p className="text-xl font-black tracking-widest uppercase">{emptyText || '未发现匹配项'}</p>
+            <p className="text-xl font-medium tracking-widest uppercase">{emptyText || '未发现匹配项'}</p>
             <p className="text-xs text-white/20 mt-2">请尝试调整筛选原则或重置搜索条件</p>
           </div>
         )}
@@ -290,7 +290,7 @@ const PromptListContainer: React.FC<PromptListContainerProps> = ({
 
       {showCopyToast && createPortal(
         <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[10000] animate-in slide-in-from-bottom-5 duration-300">
-          <div className="px-8 py-3 rounded-full bg-white text-black font-black text-sm flex items-center gap-3 shadow-2xl">
+          <div className="px-8 py-3 rounded-full bg-white text-black font-medium text-sm flex items-center gap-3 shadow-2xl">
             <CheckCircle size={18} className="text-green-500"/> 已复制 Prompt
           </div>
         </div>, document.body
@@ -300,21 +300,20 @@ const PromptListContainer: React.FC<PromptListContainerProps> = ({
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-xl animate-in fade-in duration-300">
           <div className="absolute inset-0" onClick={() => setSelectedPrompt(null)}></div>
           <div className={`relative w-full ${selectedPrompt.imageUrl ? 'max-w-6xl' : 'max-w-4xl'} max-h-[90vh] bg-[#0c0c0e] border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-300`}>
-            <div className="p-8 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
-              <div className="flex items-center gap-6">
-                <div className="w-12 h-12 rounded-2xl bg-spark-amber/20 flex items-center justify-center text-spark-amber">{getCategoryIcon(selectedPrompt.category)}</div>
-                <div>
-                   <h2 className="text-2xl font-black text-white leading-tight">{selectedPrompt.title}</h2>
-                   <div className="flex gap-3 mt-1.5">
-                      <Tag variant="accent" className="uppercase tracking-[0.2em]">{selectedPrompt.category}</Tag>
-                      <span className="text-[10px] font-black uppercase text-white/20 tracking-[0.2em] self-center">• {selectedPrompt.model || '通用模型'}</span>
-                   </div>
-                </div>
+            {/* Modal Header: Removed Avatar, Tighter spacing */}
+            <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.02] shrink-0">
+              <div className="flex flex-col gap-2">
+                 <h2 className="text-2xl font-bold text-white leading-tight">{selectedPrompt.title}</h2>
+                 <div className="flex gap-3">
+                    <Tag variant="accent" className="uppercase tracking-[0.2em]">{selectedPrompt.category}</Tag>
+                    <span className="text-[10px] font-medium uppercase text-white/20 tracking-[0.2em] self-center">• {selectedPrompt.model || '通用模型'}</span>
+                 </div>
               </div>
-              <button onClick={() => setSelectedPrompt(null)} className="text-white/20 hover:text-white p-3 hover:bg-white/5 rounded-xl transition-all"><X size={32}/></button>
+              <button onClick={() => setSelectedPrompt(null)} className="text-white/20 hover:text-white p-3 hover:bg-white/5 rounded-xl transition-all"><X size={28}/></button>
             </div>
+            
             <div className="flex-1 overflow-y-auto custom-scrollbar p-10">
-              <div className={`grid grid-cols-1 ${selectedPrompt.imageUrl ? 'lg:grid-cols-2' : ''} gap-12`}>
+              <div className={`grid grid-cols-1 ${selectedPrompt.imageUrl ? 'lg:grid-cols-2' : ''} gap-6`}>
                 {selectedPrompt.imageUrl && (
                   <div className="space-y-6">
                     <div className="rounded-2xl overflow-hidden border border-white/10 bg-black/40 shadow-2xl">
@@ -327,34 +326,49 @@ const PromptListContainer: React.FC<PromptListContainerProps> = ({
                     </div>
                   </div>
                 )}
-                <div className="space-y-10">
-                  <div className="space-y-6">
-                    <div className="space-y-4">
+                
+                {/* Right side content: Tighter spacing between modules */}
+                <div className="space-y-6"> 
+                  <div className="space-y-4">
+                    <div className="space-y-3">
                       <div className="flex justify-between items-center px-1">
                         <div className="flex items-center gap-2">
                            <Zap size={16} className="text-spark-amber" />
-                           <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]">{selectedPrompt.category === '图片' ? '正向提示词 (Positive)' : 'Prompt 内容'}</span>
+                           <span className="text-sm font-bold text-white/40 uppercase tracking-[0.2em]">{selectedPrompt.category === '图片' ? '正向提示词 (Positive)' : 'Prompt 内容'}</span>
                         </div>
-                        <button onClick={() => handleCopy(selectedPrompt.description)} className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/5 text-white/40 text-xs font-black hover:text-white hover:bg-white/10 transition-all border border-white/10"><Copy size={14}/> 复制</button>
+                        {/* Copy Button: Orange/Pink Gradient */}
+                        <button 
+                          onClick={() => handleCopy(selectedPrompt.description)} 
+                          className="flex items-center gap-2 px-6 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-yellow-500 text-white text-xs font-bold hover:shadow-lg hover:shadow-pink-500/20 active:scale-95 transition-all"
+                        >
+                          <Copy size={14} /> 复制
+                        </button>
                       </div>
                       <div className="bg-[#121214] border border-white/5 rounded-xl p-6 text-base text-white/90 leading-relaxed font-mono whitespace-pre-wrap shadow-inner">{selectedPrompt.description}</div>
                     </div>
+
                     {selectedPrompt.category === '图片' && selectedPrompt.negativePrompt && (
-                      <div className="space-y-4 animate-in slide-in-from-bottom-2">
+                      <div className="space-y-3 animate-in slide-in-from-bottom-2">
                         <div className="flex justify-between items-center px-1">
                           <div className="flex items-center gap-2">
                              <ShieldAlert size={16} className="text-orange-500" />
-                             <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]">反向提示词 (Negative)</span>
+                             <span className="text-sm font-bold text-white/40 uppercase tracking-[0.2em]">反向提示词 (Negative)</span>
                           </div>
-                          <button onClick={() => handleCopy(selectedPrompt.negativePrompt || '')} className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/5 text-white/40 text-xs font-black hover:text-white hover:bg-white/10 transition-all border border-white/10"><Copy size={14}/> 复制</button>
+                          <button 
+                             onClick={() => handleCopy(selectedPrompt.negativePrompt || '')} 
+                             className="flex items-center gap-2 px-6 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-yellow-500 text-white text-xs font-bold hover:shadow-lg hover:shadow-pink-500/20 active:scale-95 transition-all"
+                          >
+                             <Copy size={14}/> 复制
+                          </button>
                         </div>
                         <div className="bg-[#121214] border border-white/5 rounded-xl p-6 text-base text-white/50 leading-relaxed font-mono whitespace-pre-wrap shadow-inner italic">{selectedPrompt.negativePrompt}</div>
                       </div>
                     )}
                   </div>
+                  
                   <div className="bg-white/[0.02] p-6 rounded-2xl border border-white/5">
-                    <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] flex items-center gap-2 mb-2"><Cpu size={14}/> 推荐模型</span>
-                    <p className="text-sm font-black text-white">{selectedPrompt.model || '通用'}</p>
+                    <span className="text-sm font-bold text-white/30 uppercase tracking-[0.2em] flex items-center gap-2 mb-2"><Cpu size={16}/> 推荐模型</span>
+                    <p className="text-base font-medium text-white">{selectedPrompt.model || '通用'}</p>
                   </div>
                 </div>
               </div>

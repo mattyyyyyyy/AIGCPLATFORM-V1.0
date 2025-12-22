@@ -172,8 +172,8 @@ const ASR: React.FC = () => {
     <div className="h-full flex flex-col pt-8 animate-in fade-in duration-500 overflow-hidden">
       <div className="mb-4 shrink-0 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white tracking-tight uppercase drop-shadow-[0_0_8px_rgba(255,255,255,0.15)]">语音识别</h1>
-          <p className="text-[10px] font-medium text-white/50 uppercase tracking-[0.2em] mt-1">AI 实时流式转录，支持高保真音频文件识别</p>
+          <h1 className="text-2xl font-light text-white tracking-tight uppercase drop-shadow-[0_0_8px_rgba(255,255,255,0.15)]">语音识别</h1>
+          <p className="text-[11px] font-normal text-white/50 uppercase tracking-[0.2em] mt-1">AI 实时流式转录，支持高保真音频文件识别</p>
         </div>
       </div>
 
@@ -183,7 +183,7 @@ const ASR: React.FC = () => {
              {isProcessing ? (
                <div className="h-full flex flex-col items-center justify-center space-y-4">
                   <Loader2 className="w-8 h-8 text-spark-accent animate-spin" />
-                  <TextShimmerWave className="text-[11px] font-bold uppercase tracking-widest text-white/70" children="正在处理音频..." />
+                  <TextShimmerWave className="text-[11px] font-medium uppercase tracking-widest text-white/70" children="正在处理音频..." />
                </div>
              ) : transcription ? (
                <div className="w-full">
@@ -192,48 +192,47 @@ const ASR: React.FC = () => {
              ) : (
                <div className="h-full flex flex-col items-center justify-center opacity-5">
                   <Mic size={48} />
-                  <p className="text-[11px] font-bold uppercase tracking-[0.4em] mt-6">等待音频输入</p>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.4em] mt-6">等待音频输入</p>
                </div>
              )}
           </div>
 
           <div className="h-16 border-t border-white/5 bg-black/40 backdrop-blur-xl flex justify-between items-center px-6 shrink-0 relative z-20">
               <div className="flex items-center gap-4">
-                  <StarButton
-                    onClick={isRecording ? handleStop : handleStart}
-                    disabled={isProcessing}
-                    className="h-10 px-8"
-                  >
-                     <div className="flex items-center gap-2 text-sm font-bold tracking-widest">
-                        {isRecording ? <Square size={14} fill="currentColor" /> : <Mic size={14} />}
-                        {isRecording ? '停止识别' : '开始转写'}
-                     </div>
-                  </StarButton>
-                  
                   <input type="file" ref={fileInputRef} className="hidden" accept="audio/*" onChange={handleFileUpload} />
-                  <button onClick={() => fileInputRef.current?.click()} className="p-2.5 text-white/40 hover:text-white transition-all hover:bg-white/5 rounded-xl" title="上传音频文件"><Upload size={18} /></button>
+                  <button onClick={() => fileInputRef.current?.click()} className="p-2.5 text-white/40 hover:text-white transition-all hover:bg-white/5 rounded-xl border border-transparent" title="上传音频文件"><Upload size={18} /></button>
+                  <button onClick={clearTranscription} className="p-2.5 text-white/30 hover:text-white transition-all hover:bg-white/5 rounded-xl" title="重置内容"><Eraser size={18} /></button>
                   
                   {(isRecording || isProcessing) && (
                     <div className="flex items-center gap-3 px-4 py-1.5 rounded-xl bg-white/5 border border-white/10 text-white animate-in fade-in">
                        <div className={`w-1.5 h-1.5 rounded-full ${isRecording ? 'bg-red-500 animate-pulse' : 'bg-white/40'}`} />
-                       <span className="font-mono text-[12px] font-bold tabular-nums tracking-widest">{formatTime(duration)}</span>
+                       <span className="font-mono text-[12px] font-medium tabular-nums tracking-widest">{formatTime(duration)}</span>
                     </div>
                   )}
               </div>
-              <button onClick={clearTranscription} className="p-2.5 text-white/30 hover:text-white transition-all hover:bg-white/5 rounded-xl" title="重置内容"><Eraser size={18} /></button>
+              <StarButton
+                onClick={isRecording ? handleStop : handleStart}
+                disabled={isProcessing}
+                className="h-10 px-8"
+              >
+                 <div className="flex items-center gap-2 text-sm font-medium tracking-widest">
+                    {isRecording ? <Square size={14} fill="currentColor" /> : <Mic size={14} />}
+                    {isRecording ? '停止识别' : '开始转写'}
+                 </div>
+              </StarButton>
           </div>
         </div>
 
         <div className="w-80 bg-[#0f0f11] border border-white/5 rounded-2xl overflow-hidden shadow-2xl flex flex-col shrink-0">
             <div className="flex items-center gap-3 px-5 border-b border-white/5 bg-white/[0.02] shrink-0 h-12">
                 <HistoryIcon size={14} className="text-spark-accent" />
-                <span className="text-[16px] font-black text-white uppercase tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">历史转录</span>
+                <span className="text-[16px] font-normal text-white uppercase tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">历史转录</span>
             </div>
             <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2 custom-scrollbar">
               {history.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center opacity-5 text-center p-8">
                   <HistoryIcon size={32} className="mb-4" />
-                  <p className="text-[10px] font-bold uppercase tracking-widest">暂无记录</p>
+                  <p className="text-[10px] font-medium uppercase tracking-widest">暂无记录</p>
                 </div>
               ) : (
                 history.map((item, i) => (
@@ -241,10 +240,10 @@ const ASR: React.FC = () => {
                     <div className="flex justify-between items-center mb-1.5">
                       <div className="flex items-center gap-2 text-white/40">
                         <Clock size={10} />
-                        <span className="text-[10px] font-bold tabular-nums uppercase">{item.time}</span>
+                        <span className="text-[10px] font-medium tabular-nums uppercase">{item.time}</span>
                       </div>
                     </div>
-                    <p className="text-white/60 text-[12px] line-clamp-2 leading-relaxed font-medium">{item.text}</p>
+                    <p className="text-white/60 text-[12px] line-clamp-2 leading-relaxed font-normal">{item.text}</p>
                   </div>
                 ))
               )}
