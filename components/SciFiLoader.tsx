@@ -10,7 +10,7 @@ export const SciFiLoader: React.FC<LoaderProps> = ({ size = 180, text = "Generat
   const letters = text.split("");
 
   return (
-    <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md rounded-2xl overflow-hidden animate-in fade-in duration-500">
+    <div className="absolute inset-0 z-50 flex items-center justify-center animate-in fade-in duration-500 pointer-events-none">
       <div
         className="relative flex items-center justify-center font-sans select-none"
         style={{ width: size, height: size }}
@@ -18,7 +18,7 @@ export const SciFiLoader: React.FC<LoaderProps> = ({ size = 180, text = "Generat
         {letters.map((letter, index) => (
           <span
             key={index}
-            className="inline-block text-white opacity-40 animate-loaderLetter font-light tracking-[0.2em] text-sm uppercase"
+            className="inline-block text-white opacity-80 animate-loaderLetter font-light tracking-[0.2em] text-sm uppercase drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]"
             style={{ animationDelay: `${index * 0.1}s` }}
           >
             {letter}

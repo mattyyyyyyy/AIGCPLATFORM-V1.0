@@ -21,7 +21,7 @@ export function DynamicVoiceButton({
   onStart,
   onStop,
   isRecording = false,
-  startText = "开始识别",
+  startText = "开始录音",
 }: DynamicVoiceButtonProps) {
   const [time, setTime] = React.useState<number>(0)
 
@@ -54,23 +54,18 @@ export function DynamicVoiceButton({
   }
 
   return (
-    <div className={cn("flex flex-col items-center justify-center", className)}>
+    <div className={cn("flex items-center justify-center", className)}>
       <motion.button
         className={cn(
-          "relative flex items-center justify-center rounded-full cursor-pointer overflow-hidden border whitespace-nowrap",
+          "relative flex items-center justify-center rounded-xl cursor-pointer overflow-hidden border whitespace-nowrap transition-all duration-300 w-full h-full",
           isRecording 
-            ? "p-2 border-spark-accent/30 bg-spark-accent/10" 
-            : "h-10 px-8 bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent shadow-xl hover:shadow-blue-500/20"
+            ? "border-spark-accent/30 bg-spark-accent/10" 
+            : "bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 active:scale-95"
         )}
-        layout
-        transition={{
-          layout: { duration: 0.3, type: "spring", stiffness: 300, damping: 25 }
-        }}
         onClick={handleClick}
       >
         <motion.div 
           className="flex items-center justify-center shrink-0 z-10"
-          layout="position"
         >
           {isRecording ? (
             <div className="h-6 w-6 flex items-center justify-center">
@@ -81,29 +76,24 @@ export function DynamicVoiceButton({
               />
             </div>
           ) : (
-            <div className="flex items-center gap-2.5 text-white">
-               <Mic size={14} fill="currentColor" />
-               <motion.span 
-                 initial={{ opacity: 0 }} 
-                 animate={{ opacity: 1 }} 
-                 className="text-sm font-medium uppercase tracking-widest"
-               >
+            <div className="flex items-center gap-3 text-white">
+               <Mic size={16} fill="currentColor" />
+               <span className="text-[13px] font-medium uppercase tracking-widest">
                  {startText}
-               </motion.span>
+               </span>
             </div>
           )}
         </motion.div>
 
-        <AnimatePresence>
+        <AnimatePresence mode="popLayout">
           {isRecording && (
             <motion.div
               initial={{ opacity: 0, width: 0, marginLeft: 0 }}
               animate={{ opacity: 1, width: "auto", marginLeft: 12 }}
               exit={{ opacity: 0, width: 0, marginLeft: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="overflow-hidden flex gap-4 items-center justify-center pr-2 origin-left"
+              transition={{ duration: 0.4, ease: "circOut" }}
+              className="overflow-hidden flex gap-4 items-center justify-center pr-2 origin-left h-6"
             >
-              {/* Frequency Animation */}
               <div className="flex gap-0.5 items-center justify-center h-4">
                 {[...Array(8)].map((_, i) => (
                   <motion.div
@@ -111,7 +101,7 @@ export function DynamicVoiceButton({
                     className="w-0.5 bg-spark-accent rounded-full"
                     initial={{ height: 4 }}
                     animate={{
-                      height: [4, 8 + Math.random() * 12, 4 + Math.random() * 6, 4],
+                      height: [4, 10 + Math.random() * 8, 4 + Math.random() * 4, 4],
                     }}
                     transition={{
                       duration: 0.5,
@@ -123,8 +113,7 @@ export function DynamicVoiceButton({
                 ))}
               </div>
               
-              {/* Timer */}
-              <div className="text-xs font-mono text-spark-accent w-10 text-center tracking-wider">
+              <div className="text-xs font-mono text-spark-accent w-10 text-center tracking-wider tabular-nums">
                 {formatTime(time)}
               </div>
             </motion.div>

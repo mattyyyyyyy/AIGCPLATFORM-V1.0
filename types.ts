@@ -35,6 +35,7 @@ export interface Voice {
   gender: 'Male' | 'Female';
   language: 'Chinese' | 'English';
   tags: string[];
+  notes?: string; // Added for custom voices
   category: 'Social Media' | 'Character' | 'Narrator' | 'News';
   previewUrl?: string;
   avatarUrl: string;
@@ -52,6 +53,7 @@ export interface SpeakerIdentity {
   color: string;
   isKnown: boolean;
   avatarSeed: string;
+  source?: 'cloned' | 'detected';
 }
 
 export interface SpeakerSegment {

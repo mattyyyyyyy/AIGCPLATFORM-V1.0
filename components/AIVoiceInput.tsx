@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Mic } from "lucide-react";
+import { Mic, Square } from "lucide-react";
 
 function cn(...classes: (string | undefined | boolean | null)[]) {
   return classes.filter(Boolean).join(' ');
@@ -18,7 +18,7 @@ interface AIVoiceInputProps {
 export function AIVoiceInput({
   onStart,
   onStop,
-  visualizerBars = 48,
+  visualizerBars = 32, // Reduced number of bars
   demoMode = false,
   demoInterval = 3000,
   className
@@ -85,51 +85,60 @@ export function AIVoiceInput({
   };
 
   return (
-    <div className={cn("w-full py-4", className)}>
+    <div className={cn("w-full py-2", className)}>
       <div className="relative max-w-xl w-full mx-auto flex items-center flex-col gap-4">
+        {/* Main Recording Button */}
         <button
           className={cn(
-            "group w-20 h-20 rounded-2xl flex items-center justify-center transition-all duration-500 border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/10 shadow-xl",
-            submitted ? "ring-2 ring-spark-accent/50 scale-95" : ""
+            "group relative w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 shadow-2xl overflow-hidden",
+            submitted 
+              ? "bg-emerald-600 ring-4 ring-emerald-500/20 scale-95" 
+              : "bg-emerald-500 hover:bg-emerald-400 hover:scale-105 hover:shadow-emerald-500/40"
           )}
           type="button"
           onClick={handleClick}
         >
+          {/* Ripple Effect Background when recording */}
+          {submitted && (
+             <div className="absolute inset-0 bg-white/20 animate-pulse" />
+          )}
+
           {submitted ? (
-            <div
-              className="w-6 h-6 rounded-sm animate-spin bg-spark-accent cursor-pointer pointer-events-auto shadow-[0_0_15px_rgba(59,130,246,0.6)]"
-              style={{ animationDuration: "2s" }}
-            />
+            <div className="relative z-10 flex flex-col items-center justify-center gap-1">
+               <Square className="w-5 h-5 text-white fill-white" />
+            </div>
           ) : (
-            <Mic className="w-8 h-8 text-white/70 group-hover:text-white transition-colors" />
+            <Mic className="w-7 h-7 text-white fill-white/20 transition-transform group-hover:scale-110" />
           )}
         </button>
 
+        {/* Timer */}
         <span
           className={cn(
-            "font-mono text-lg font-black tracking-widest transition-opacity duration-300",
+            "font-mono text-sm font-bold tracking-widest transition-colors duration-300 tabular-nums",
             submitted
-              ? "text-spark-accent animate-pulse"
+              ? "text-white animate-pulse"
               : "text-white/20"
           )}
         >
           {formatTime(time)}
         </span>
 
-        <div className="h-10 w-full flex items-center justify-center gap-0.5">
+        {/* Visualizer Bars */}
+        <div className="h-8 w-full flex items-center justify-center gap-1">
           {[...Array(visualizerBars)].map((_, i) => (
             <div
               key={i}
               className={cn(
-                "w-1 rounded-full transition-all duration-300",
+                "w-1 rounded-full transition-all duration-300 ease-in-out",
                 submitted
-                  ? "bg-spark-accent/60 animate-pulse"
-                  : "bg-white/5 h-2"
+                  ? "bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+                  : "bg-white/5 h-1"
               )}
               style={
                 submitted && isClient
                   ? {
-                      height: `${30 + Math.random() * 70}%`,
+                      height: `${20 + Math.random() * 80}%`,
                       animationDelay: `${i * 0.05}s`,
                     }
                   : undefined
@@ -138,8 +147,12 @@ export function AIVoiceInput({
           ))}
         </div>
 
-        <p className="h-4 text-[10px] font-black uppercase tracking-[0.3em] text-white/30">
-          {submitted ? "正在聆听并分析音频特征..." : "点击上方按钮开始录制"}
+        {/* Status Text */}
+        <p className={cn(
+          "h-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-300",
+          submitted ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" : "text-white/30"
+        )}>
+          {submitted ? "正在采集音频样本..." : "点击上方按钮开始录制"}
         </p>
       </div>
     </div>

@@ -96,18 +96,18 @@ const AppContent: React.FC = () => {
           {/* Animated Gradient Orbs - Switch colors based on module */}
           <div 
              className={`absolute top-[-20%] left-[-10%] w-[80vw] h-[80vw] rounded-full blur-[120px] animate-pulse-slow mix-blend-screen transition-colors duration-1000 ${
-               isPromptModule ? 'bg-orange-900/10' : 'bg-blue-900/10'
+               isPromptModule ? 'bg-orange-600/10' : 'bg-blue-900/10'
              }`} 
           />
           <div 
              className={`absolute bottom-[-20%] right-[-10%] w-[70vw] h-[70vw] rounded-full blur-[100px] animate-pulse-slow mix-blend-screen transition-colors duration-1000 ${
-                isPromptModule ? 'bg-pink-900/10' : 'bg-indigo-900/10'
+                isPromptModule ? 'bg-pink-600/10' : 'bg-indigo-900/10'
              }`} 
              style={{ animationDelay: '2s' }} 
           />
           <div 
              className={`absolute top-[40%] left-[30%] w-[40vw] h-[40vw] rounded-full blur-[150px] animate-pulse-slow mix-blend-screen transition-colors duration-1000 ${
-                isPromptModule ? 'bg-yellow-900/5' : 'bg-purple-900/5'
+                isPromptModule ? 'bg-amber-600/5' : 'bg-purple-900/5'
              }`} 
              style={{ animationDelay: '4s' }} 
           />

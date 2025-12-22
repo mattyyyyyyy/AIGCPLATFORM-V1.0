@@ -31,7 +31,7 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
   // 编辑状态
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
-  const [editTags, setEditTags] = useState('');
+  const [editNotes, setEditNotes] = useState('');
   
   const filterPanelRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -79,13 +79,13 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
   const startEditing = (voice: Voice) => {
     setEditingId(voice.id);
     setEditName(voice.name);
-    setEditTags(voice.tags.join(', '));
+    setEditNotes(voice.notes || '');
   };
 
   const saveEdit = (id: string) => {
     updateVoice(id, {
       name: editName,
-      tags: editTags.split(/[，, ]/).filter(t => t.trim())
+      notes: editNotes
     });
     setEditingId(null);
   };
@@ -97,29 +97,18 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
     }
   };
 
+  const isCustomPage = activeTab === Page.CUSTOM;
+
   return (
     <div className="h-full flex flex-col gap-0 animate-in fade-in duration-500 relative">
        {/* Header with increased clarity */}
        <div className="flex items-center justify-between shrink-0 py-2.5 mb-4 border-b border-white/5 relative z-30">
           <div className="flex items-center gap-6">
-            <h1 className="text-xl font-medium text-white uppercase tracking-widest shrink-0">声音库</h1>
+            <h1 className="text-xl font-medium text-white uppercase tracking-widest shrink-0">
+              {isCustomPage ? '自定义声音' : '预设声音'}
+            </h1>
             
-            <div className="flex bg-[#161618] border border-white/10 rounded-lg p-1 shrink-0">
-              {[
-                {id: Page.PRESET, label: '预设'}, 
-                {id: Page.CUSTOM, label: '自定义'}
-              ].map((tab) => (
-                <button 
-                  key={tab.id} 
-                  onClick={() => onNavigate(tab.id as Page)} 
-                  className={`px-4 py-1 text-sm font-medium rounded-md transition-all whitespace-nowrap ${activeTab === tab.id ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white hover:bg-white/5'}`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Search Bar with clear text */}
+            {/* Search Bar */}
             <div className="relative group min-w-[200px] md:min-w-[260px]">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-spark-accent transition-colors" size={14} />
               <input 
@@ -130,21 +119,23 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
               />
             </div>
 
-            {/* Filter and Create buttons */}
-            <div className="flex items-center gap-3 relative">
-              <button 
-                onClick={() => setShowFilterPanel(!showFilterPanel)} 
-                className={`px-4 py-1.5 rounded-xl border text-[13px] font-medium transition-all flex items-center gap-2 whitespace-nowrap ${showFilterPanel ? 'bg-spark-accent/20 border-spark-accent/40 text-white' : 'bg-[#161618] border-white/10 text-white/60 hover:bg-white/5 hover:text-white'}`}
-              >
-                <Filter size={12} /> 筛选
-              </button>
+            {/* Actions area - Filter hidden on custom page */}
+            <div className="flex items-center gap-3 relative h-9">
+              {!isCustomPage && (
+                <button 
+                  onClick={() => setShowFilterPanel(!showFilterPanel)} 
+                  className={`px-4 py-1 rounded-xl border text-[13px] font-medium transition-all flex items-center gap-2 whitespace-nowrap h-full ${showFilterPanel ? 'bg-spark-accent/20 border-spark-accent/40 text-white' : 'bg--[#161618] border-white/10 text-white/60 hover:bg-white/5 hover:text-white'}`}
+                >
+                  <Filter size={12} /> 筛选
+                </button>
+              )}
               
-              {activeTab === Page.CUSTOM && (
+              {isCustomPage && (
                  <button 
                    onClick={() => onNavigate(Page.VOICE_CLONING)} 
-                   className="px-4 py-1.5 rounded-xl bg-spark-accent hover:bg-blue-500 text-white text-[13px] font-medium flex items-center gap-2 transition-all shadow-lg shadow-spark-accent/20 whitespace-nowrap"
+                   className="px-6 py-1 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 hover:scale-[1.02] active:scale-[0.98] text-white text-[13px] font-bold uppercase tracking-widest flex items-center gap-2 transition-all shadow-lg shadow-blue-500/20 whitespace-nowrap h-full"
                  >
-                   <Plus size={12} /> 创建
+                   <Plus size={14} /> 创建新声音
                  </button>
               )}
 
@@ -193,8 +184,21 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
                 <div 
                   key={voice.id} 
                   style={{ animationDelay: `${idx * 15}ms` }}
-                  className={`group flex flex-col p-3.5 rounded-xl transition-all duration-300 border animate-in fade-in slide-in-from-bottom-1 ${isEditing ? 'bg-spark-accent/5 border-spark-accent/40 shadow-xl' : playing ? 'bg-white/10 border-white/20 shadow-md' : 'bg-white/[0.02] border-white/5 hover:border-white/10'}`}
+                  className={`group flex flex-col p-3.5 rounded-xl transition-all duration-300 border animate-in fade-in slide-in-from-bottom-1 ${isEditing ? 'bg-spark-accent/5 border-spark-accent/40 shadow-xl' : playing ? 'bg-white/10 border-white/20 shadow-md' : 'bg-[#161618] border-white/10 hover:border-white/20'}`}
                 >
+                  {isEditing && (
+                    <div className="mb-3 space-y-2 animate-in fade-in slide-in-from-top-1">
+                       <label className="text-sm font-bold text-white uppercase tracking-wider ml-0.5">备注信息</label>
+                       <textarea 
+                          value={editNotes} 
+                          onChange={e => setEditNotes(e.target.value)} 
+                          rows={2}
+                          className="w-full bg-black/40 border border-white/20 rounded-lg px-2.5 py-2 text-[11px] text-white font-normal outline-none focus:border-spark-accent resize-none"
+                          placeholder="填写声音备注..."
+                       />
+                    </div>
+                  )}
+
                   <div className="flex items-center gap-3">
                     <div className="relative cursor-pointer shrink-0" onClick={() => !isEditing && playVoice(voice)}>
                         <img src={voice.avatarUrl} alt={voice.name} className="w-11 h-11 rounded-lg object-cover bg-black/20 border border-white/10" />
@@ -207,20 +211,29 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
                     
                     <div className="flex-1 min-w-0">
                        {isEditing ? (
-                         <input 
-                           autoFocus
-                           value={editName}
-                           onChange={e => setEditName(e.target.value)}
-                           className="w-full bg-black/40 border border-white/20 rounded-lg px-2 py-1 text-sm font-medium text-white outline-none focus:border-spark-accent"
-                           placeholder="名称"
-                         />
+                         <div className="space-y-1">
+                           <label className="text-sm font-bold text-white uppercase tracking-wider ml-0.5">名称</label>
+                           <input 
+                             value={editName}
+                             onChange={e => setEditName(e.target.value)}
+                             className="w-full bg-black/40 border border-white/20 rounded-lg px-2 py-1.5 text-sm font-medium text-white outline-none focus:border-spark-accent"
+                             placeholder="填写声音名称…"
+                           />
+                         </div>
                        ) : (
-                         <div className="flex items-center gap-1.5 mb-0.5">
-                            <h3 className={`text-[14px] font-medium truncate leading-tight transition-colors ${playing ? 'text-spark-accent' : 'text-white'}`}>{voice.name}</h3>
-                            {isSelected && <Zap size={10} className="text-spark-accent fill-spark-accent shrink-0" />}
+                         <div className="flex flex-col gap-0.5">
+                            <div className="flex items-center gap-1.5">
+                               <h3 className={`text-[14px] font-medium truncate leading-tight transition-colors ${playing ? 'text-spark-accent' : 'text-white'}`}>{voice.name}</h3>
+                               {isSelected && <Zap size={10} className="text-spark-accent fill-spark-accent shrink-0" />}
+                            </div>
+                            {!isCustom && (
+                              <p className="text-[10px] text-white/50 uppercase font-normal tracking-widest truncate">{translateCategory(voice.category)}</p>
+                            )}
+                            {isCustom && voice.notes && (
+                              <p className="text-[10px] text-white/30 italic truncate max-w-[120px]">“{voice.notes}”</p>
+                            )}
                          </div>
                        )}
-                       <p className="text-[10px] text-white/50 uppercase font-normal tracking-widest truncate">{translateCategory(voice.category)}</p>
                     </div>
 
                     {!isEditing && (
@@ -240,40 +253,23 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
                         )}
                       </div>
                     )}
+                    
+                    {isEditing && (
+                      <div className="flex flex-col gap-1 shrink-0 pt-4">
+                        <button onClick={() => saveEdit(voice.id)} className="p-2 bg-spark-accent hover:bg-blue-500 rounded-lg text-white transition-colors" title="保存"><Check size={14}/></button>
+                        <button onClick={() => setEditingId(null)} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-white/40" title="取消"><CloseIcon size={14}/></button>
+                      </div>
+                    )}
                   </div>
-
-                  {isEditing ? (
-                    <div className="mt-3 space-y-1.5 animate-in fade-in slide-in-from-top-1">
-                       <label className="text-[9px] font-medium text-white/40 uppercase tracking-widest ml-0.5">描述标签</label>
-                       <div className="flex gap-2">
-                         <input 
-                            value={editTags} 
-                            onChange={e => setEditTags(e.target.value)} 
-                            className="flex-1 min-w-0 bg-black/40 border border-white/20 rounded-lg px-2 py-1.5 text-[11px] text-white font-normal outline-none focus:border-spark-accent"
-                            placeholder="标签 (逗号隔开)"
-                         />
-                         <div className="flex gap-1 shrink-0">
-                           <button onClick={() => saveEdit(voice.id)} className="p-1.5 bg-spark-accent hover:bg-blue-500 rounded-lg text-white transition-colors" title="确认"><Check size={14}/></button>
-                           <button onClick={() => setEditingId(null)} className="p-1.5 bg-white/5 hover:bg-white/10 rounded-lg text-white/40" title="取消"><CloseIcon size={14}/></button>
-                         </div>
-                       </div>
-                    </div>
-                  ) : isCustom ? (
-                    <div className="mt-2.5 flex flex-wrap gap-1.5 h-4 overflow-hidden group-hover:h-auto transition-all">
-                       {voice.tags.map(tag => (
-                         <span key={tag} className="text-[9px] font-normal text-white/60 px-1.5 py-0.5 rounded-md bg-white/5 border border-white/10 uppercase">#{tag}</span>
-                       ))}
-                    </div>
-                  ) : null}
                 </div>
               );
             })}
           </div>
 
           {getFilteredVoices().length === 0 && (
-             <div className="flex flex-col items-center justify-center py-24 text-white/5">
-                <Search size={40} className="mb-3 opacity-10" />
-                <p className="text-[12px] font-normal uppercase tracking-[0.3em]">无匹配音色</p>
+             <div className="h-full flex flex-col items-center justify-center text-white/60">
+                <Search size={48} className="mb-4" />
+                <p className="text-[13px] font-medium uppercase tracking-[0.3em]">无匹配音色</p>
              </div>
           )}
        </div>

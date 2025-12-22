@@ -169,8 +169,8 @@ const ASR: React.FC = () => {
   };
 
   return (
-    <div className="h-full flex flex-col pt-8 animate-in fade-in duration-500 overflow-hidden">
-      <div className="mb-4 shrink-0 flex items-center justify-between">
+    <div className="h-full flex flex-col pt-2 animate-in fade-in duration-500 overflow-hidden">
+      <div className="mb-2 shrink-0 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-light text-white tracking-tight uppercase drop-shadow-[0_0_8px_rgba(255,255,255,0.15)]">语音识别</h1>
           <p className="text-[11px] font-normal text-white/50 uppercase tracking-[0.2em] mt-1">AI 实时流式转录，支持高保真音频文件识别</p>
@@ -178,7 +178,7 @@ const ASR: React.FC = () => {
       </div>
 
       <div className="flex-1 flex gap-6 overflow-hidden min-h-0">
-        <div className="flex-1 flex flex-col min-w-0 bg-[#0f0f11] rounded-2xl border border-white/5 relative shadow-2xl overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0 bg-black/20 backdrop-blur-2xl border border-white/10 rounded-2xl relative shadow-2xl overflow-hidden">
           <div className="flex-1 p-8 overflow-y-auto custom-scrollbar relative">
              {isProcessing ? (
                <div className="h-full flex flex-col items-center justify-center space-y-4">
@@ -223,27 +223,27 @@ const ASR: React.FC = () => {
           </div>
         </div>
 
-        <div className="w-80 bg-[#0f0f11] border border-white/5 rounded-2xl overflow-hidden shadow-2xl flex flex-col shrink-0">
+        <div className="w-80 bg-black/20 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col shrink-0">
             <div className="flex items-center gap-3 px-5 border-b border-white/5 bg-white/[0.02] shrink-0 h-12">
-                <HistoryIcon size={14} className="text-spark-accent" />
-                <span className="text-[16px] font-normal text-white uppercase tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">历史转录</span>
+                <HistoryIcon size={16} className="text-spark-accent" />
+                <span className="text-[14px] font-medium text-white uppercase tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">历史转录</span>
             </div>
             <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2 custom-scrollbar">
               {history.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center opacity-5 text-center p-8">
-                  <HistoryIcon size={32} className="mb-4" />
-                  <p className="text-[10px] font-medium uppercase tracking-widest">暂无记录</p>
+                <div className="h-full flex flex-col items-center justify-center text-center p-8 text-white/60">
+                  <HistoryIcon size={40} className="mb-4" />
+                  <p className="text-[12px] font-medium uppercase tracking-widest">暂无记录</p>
                 </div>
               ) : (
                 history.map((item, i) => (
-                  <div key={i} onClick={() => { setTranscription(item.text); setSessionKey(prev => prev + 1); }} className="group p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-spark-accent/30 transition-all cursor-pointer relative shadow-sm">
+                  <div key={i} onClick={() => { setTranscription(item.text); setSessionKey(prev => prev + 1); }} className="group p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/5 hover:border-spark-accent/30 transition-all cursor-pointer relative shadow-sm">
                     <div className="flex justify-between items-center mb-1.5">
                       <div className="flex items-center gap-2 text-white/40">
                         <Clock size={10} />
                         <span className="text-[10px] font-medium tabular-nums uppercase">{item.time}</span>
                       </div>
                     </div>
-                    <p className="text-white/60 text-[12px] line-clamp-2 leading-relaxed font-normal">{item.text}</p>
+                    <p className="text-white/60 text-[13px] line-clamp-2 leading-relaxed font-normal">{item.text}</p>
                   </div>
                 ))
               )}

@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Heart } from 'lucide-react';
 import { usePlayer } from '../contexts/PlayerContext';
 import { useVoices } from '../contexts/VoiceContext';
 import PlayerBar from './PlayerBar';
@@ -19,11 +18,10 @@ const GlobalPlayer: React.FC = () => {
     closePlayer 
   } = usePlayer();
 
-  const { getVoice, toggleFavorite } = useVoices();
+  const { getVoice } = useVoices();
 
   if (!currentVoice) return null;
 
-  // Get the most up-to-date voice object from context to check isFavorite
   const activeVoiceData = getVoice(currentVoice.id) || currentVoice;
   const isPreset = activeVoiceData.source === 'preset';
 
@@ -42,15 +40,6 @@ const GlobalPlayer: React.FC = () => {
         onSeek={seek}
         onForward={() => forward(10)}
         onRewind={() => rewind(10)}
-        actionButton={
-          <button 
-            onClick={() => toggleFavorite(activeVoiceData.id)}
-            className={`p-2 rounded-lg transition-colors ${activeVoiceData.isFavorite ? 'text-red-500 hover:bg-red-500/10' : 'text-white/30 hover:text-white hover:bg-white/10'}`}
-            title="收藏"
-          >
-             <Heart size={18} fill={activeVoiceData.isFavorite ? "currentColor" : "none"} />
-          </button>
-        }
       />
     </div>
   );

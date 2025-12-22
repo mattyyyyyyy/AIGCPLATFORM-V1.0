@@ -62,6 +62,12 @@ export const translations = {
     'prompt_empty_mine': '你还没有创建过提示词',
     'heroTitle': '遇见你的数字孪生',
     'dh_features': ['语音交互', '视频生成', '虚拟化身', '3D 数字人'],
+    'prompt_sidebar_title': '提示词库',
+    'prompt_sidebar_reset': '重置',
+    'prompt_search_placeholder': '搜索提示词...',
+    'prompt_section_category': '任务分类',
+    'prompt_section_model': '推荐模型',
+    'prompt_section_tags': '热门标签',
   },
   EN: {
     'main_menu': 'Main Menu',
@@ -123,6 +129,12 @@ export const translations = {
     'prompt_empty_mine': 'You haven\'t created any prompts yet',
     'heroTitle': 'Meet Your Digital Twin',
     'dh_features': ['Voice Interaction', 'Video Gen', 'Virtual Avatar', '3D Digital Human'],
+    'prompt_sidebar_title': 'Prompt Library',
+    'prompt_sidebar_reset': 'Reset',
+    'prompt_search_placeholder': 'Search prompts...',
+    'prompt_section_category': 'Categories',
+    'prompt_section_model': 'Recommended Models',
+    'prompt_section_tags': 'Popular Tags',
   }
 };
 

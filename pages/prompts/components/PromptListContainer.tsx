@@ -297,79 +297,90 @@ const PromptListContainer: React.FC<PromptListContainerProps> = ({
       )}
 
       {selectedPrompt && createPortal(
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-xl animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-md animate-in fade-in duration-300">
           <div className="absolute inset-0" onClick={() => setSelectedPrompt(null)}></div>
-          <div className={`relative w-full ${selectedPrompt.imageUrl ? 'max-w-6xl' : 'max-w-4xl'} max-h-[90vh] bg-[#0c0c0e] border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-300`}>
-            {/* Modal Header: Removed Avatar, Tighter spacing */}
-            <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.02] shrink-0">
-              <div className="flex flex-col gap-2">
-                 <h2 className="text-2xl font-bold text-white leading-tight">{selectedPrompt.title}</h2>
-                 <div className="flex gap-3">
-                    <Tag variant="accent" className="uppercase tracking-[0.2em]">{selectedPrompt.category}</Tag>
-                    <span className="text-[10px] font-medium uppercase text-white/20 tracking-[0.2em] self-center">• {selectedPrompt.model || '通用模型'}</span>
+          <div className={`relative w-full ${selectedPrompt.imageUrl ? 'max-w-6xl' : 'max-w-4xl'} max-h-[90vh] bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-300`}>
+            
+            {/* Header: Added Glow Effect */}
+            <div className="px-10 py-5 border-b border-white/5 flex justify-between items-center bg-white/[0.02] shrink-0 shadow-[0_4px_30px_rgba(255,255,255,0.05)] relative z-20">
+              <div className="flex flex-col gap-1.5">
+                 <h2 className="text-3xl font-bold text-white leading-tight">{selectedPrompt.title}</h2>
+                 <div className="flex gap-4">
+                    <Tag variant="accent" className="uppercase tracking-[0.2em] px-3">{selectedPrompt.category}</Tag>
+                    <span className="text-[11px] font-medium uppercase text-white/30 tracking-[0.25em] self-center">• {selectedPrompt.model || '通用模型'}</span>
                  </div>
               </div>
               <button onClick={() => setSelectedPrompt(null)} className="text-white/20 hover:text-white p-3 hover:bg-white/5 rounded-xl transition-all"><X size={28}/></button>
             </div>
             
-            <div className="flex-1 overflow-y-auto custom-scrollbar p-10">
-              <div className={`grid grid-cols-1 ${selectedPrompt.imageUrl ? 'lg:grid-cols-2' : ''} gap-6`}>
+            <div className="flex-1 overflow-y-auto custom-scrollbar p-10 pt-6">
+              <div className={`grid grid-cols-1 ${selectedPrompt.imageUrl ? 'lg:grid-cols-2' : ''} gap-8`}>
                 {selectedPrompt.imageUrl && (
                   <div className="space-y-6">
                     <div className="rounded-2xl overflow-hidden border border-white/10 bg-black/40 shadow-2xl">
                       <img src={selectedPrompt.imageUrl} className="w-full h-auto" alt="preview" />
                     </div>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2.5">
                        {selectedPrompt.tags.map(tag => (
-                         <Tag key={tag} className="px-3 py-1.5 text-[10px]">#{tag}</Tag>
+                         <Tag key={tag} className="px-4 py-2 text-[11px] font-bold">#{tag}</Tag>
                        ))}
                     </div>
                   </div>
                 )}
                 
-                {/* Right side content: Tighter spacing between modules */}
-                <div className="space-y-6"> 
-                  <div className="space-y-4">
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center px-1">
-                        <div className="flex items-center gap-2">
-                           <Zap size={16} className="text-spark-amber" />
-                           <span className="text-sm font-bold text-white/40 uppercase tracking-[0.2em]">{selectedPrompt.category === '图片' ? '正向提示词 (Positive)' : 'Prompt 内容'}</span>
-                        </div>
-                        {/* Copy Button: Orange/Pink Gradient */}
-                        <button 
-                          onClick={() => handleCopy(selectedPrompt.description)} 
-                          className="flex items-center gap-2 px-6 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-yellow-500 text-white text-xs font-bold hover:shadow-lg hover:shadow-pink-500/20 active:scale-95 transition-all"
-                        >
-                          <Copy size={14} /> 复制
-                        </button>
-                      </div>
-                      <div className="bg-[#121214] border border-white/5 rounded-xl p-6 text-base text-white/90 leading-relaxed font-mono whitespace-pre-wrap shadow-inner">{selectedPrompt.description}</div>
-                    </div>
-
-                    {selectedPrompt.category === '图片' && selectedPrompt.negativePrompt && (
-                      <div className="space-y-3 animate-in slide-in-from-bottom-2">
+                {/* Content: Increased titles, reduced spacing */}
+                <div className="space-y-6 flex flex-col"> 
+                    <div className="space-y-4">
+                      {/* Positive Prompt */}
+                      <div className="space-y-2.5">
                         <div className="flex justify-between items-center px-1">
-                          <div className="flex items-center gap-2">
-                             <ShieldAlert size={16} className="text-orange-500" />
-                             <span className="text-sm font-bold text-white/40 uppercase tracking-[0.2em]">反向提示词 (Negative)</span>
+                          <div className="flex items-center gap-2.5">
+                             <Zap size={18} className="text-spark-amber" />
+                             <span className="text-lg font-black text-white/50 uppercase tracking-[0.2em]">
+                               {selectedPrompt.category === '图片' ? '正向提示词' : 'Prompt 内容'}
+                             </span>
                           </div>
                           <button 
-                             onClick={() => handleCopy(selectedPrompt.negativePrompt || '')} 
-                             className="flex items-center gap-2 px-6 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-yellow-500 text-white text-xs font-bold hover:shadow-lg hover:shadow-pink-500/20 active:scale-95 transition-all"
+                            onClick={() => handleCopy(selectedPrompt.description)} 
+                            className="flex items-center gap-2.5 px-6 py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-yellow-500 text-white text-xs font-black uppercase tracking-widest hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] active:scale-95 transition-all"
                           >
-                             <Copy size={14}/> 复制
+                            <Copy size={14} /> 复制
                           </button>
                         </div>
-                        <div className="bg-[#121214] border border-white/5 rounded-xl p-6 text-base text-white/50 leading-relaxed font-mono whitespace-pre-wrap shadow-inner italic">{selectedPrompt.negativePrompt}</div>
+                        <div className="bg-[#0a0a0c] border border-white/5 rounded-2xl p-6 text-base text-white/90 leading-relaxed font-mono whitespace-pre-wrap shadow-inner border-l-2 border-l-spark-amber/30">
+                          {selectedPrompt.description}
+                        </div>
                       </div>
-                    )}
-                  </div>
-                  
-                  <div className="bg-white/[0.02] p-6 rounded-2xl border border-white/5">
-                    <span className="text-sm font-bold text-white/30 uppercase tracking-[0.2em] flex items-center gap-2 mb-2"><Cpu size={16}/> 推荐模型</span>
-                    <p className="text-base font-medium text-white">{selectedPrompt.model || '通用'}</p>
-                  </div>
+
+                      {/* Negative Prompt */}
+                      {selectedPrompt.category === '图片' && selectedPrompt.negativePrompt && (
+                        <div className="space-y-2.5 animate-in slide-in-from-bottom-2">
+                          <div className="flex justify-between items-center px-1">
+                            <div className="flex items-center gap-2.5">
+                               <ShieldAlert size={18} className="text-orange-500" />
+                               <span className="text-lg font-black text-white/50 uppercase tracking-[0.2em]">反向提示词</span>
+                            </div>
+                            <button 
+                               onClick={() => handleCopy(selectedPrompt.negativePrompt || '')} 
+                               className="flex items-center gap-2.5 px-6 py-1.5 rounded-lg bg-gradient-to-r from-pink-500 to-yellow-500 text-white text-xs font-black uppercase tracking-widest hover:shadow-[0_0_20px_rgba(236,72,153,0.3)] active:scale-95 transition-all"
+                            >
+                               <Copy size={14}/> 复制
+                            </button>
+                          </div>
+                          <div className="bg-[#0a0a0c] border border-white/5 rounded-2xl p-6 text-base text-white/40 leading-relaxed font-mono whitespace-pre-wrap shadow-inner italic border-l-2 border-l-orange-500/30">
+                            {selectedPrompt.negativePrompt}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Model Info */}
+                    <div className="bg-white/[0.02] p-6 rounded-2xl border border-white/5 mt-auto">
+                      <span className="text-lg font-black text-white/30 uppercase tracking-[0.2em] flex items-center gap-2.5 mb-3">
+                        <Cpu size={20}/> 推荐模型
+                      </span>
+                      <p className="text-xl font-bold text-white tracking-tight">{selectedPrompt.model || '通用'}</p>
+                    </div>
                 </div>
               </div>
             </div>

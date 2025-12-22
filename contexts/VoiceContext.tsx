@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState } from 'react';
 import { Voice, SpeakerIdentity } from '../types';
 import { MOCK_VOICES } from '../constants';
@@ -26,8 +27,8 @@ export const VoiceProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   
   // Speaker Memory Registry: 存储已命名的角色声纹
   const [speakerRegistry, setSpeakerRegistry] = useState<Record<string, SpeakerIdentity>>({
-    'spk_known_1': { id: 'spk_known_1', name: '李经理', color: 'bg-indigo-600', isKnown: true, avatarSeed: 'manager' },
-    'spk_known_2': { id: 'spk_known_2', name: '王助理', color: 'bg-rose-500', isKnown: true, avatarSeed: 'assistant' }
+    'spk_known_1': { id: 'spk_known_1', name: '李经理', color: 'bg-indigo-600', isKnown: true, avatarSeed: 'manager', source: 'detected' },
+    'spk_known_2': { id: 'spk_known_2', name: '王助理', color: 'bg-rose-500', isKnown: true, avatarSeed: 'assistant', source: 'detected' }
   });
 
   const toggleFavorite = (voiceId: string) => {

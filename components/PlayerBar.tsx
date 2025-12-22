@@ -15,7 +15,7 @@ interface PlayerBarProps {
   onSeek: (time: number) => void;
   onForward?: () => void;
   onRewind?: () => void;
-  actionButton?: React.ReactNode; // Download or Heart
+  actionButton?: React.ReactNode; 
   className?: string;
 }
 
@@ -30,7 +30,6 @@ const PlayerBar: React.FC<PlayerBarProps> = ({
   onSeek,
   onForward,
   onRewind,
-  actionButton,
   className = ''
 }) => {
   const formatTime = (time: number) => {
@@ -43,90 +42,82 @@ const PlayerBar: React.FC<PlayerBarProps> = ({
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className={`bg-[#0f0f11]/80 backdrop-blur-xl border border-white/5 rounded-xl px-6 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.3)] flex items-center gap-8 relative overflow-hidden group w-full transition-all duration-300 hover:bg-[#0f0f11]/90 ${className}`}>
+    <div className={`bg-white/90 backdrop-blur-2xl border border-white shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex items-center gap-8 relative overflow-hidden group w-full transition-all duration-300 h-[5.5rem] ${className}`}>
       
       {/* Progress Bar Background (Bottom Line) */}
-      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/5">
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/5 pointer-events-none">
          <div 
-           className="h-full bg-gradient-to-r from-spark-accent to-spark-dark transition-all duration-100 ease-linear"
+           className="h-full bg-blue-600 transition-all duration-100 ease-linear shadow-[0_0_10px_rgba(37,99,235,0.3)]"
            style={{ width: `${progress}%` }}
          />
       </div>
 
-      {/* Info Section - Simplified: Only avatar and title */}
-      <div className="flex items-center gap-4 min-w-[150px] max-w-[25%] shrink-0">
+      {/* Info Section */}
+      <div className="flex items-center gap-4 min-w-[150px] max-w-[25%] shrink-0 py-3 pl-6">
         <div className="relative shrink-0">
            <img 
              src={avatarUrl} 
              alt="avatar" 
-             className={`w-10 h-10 rounded-lg border border-white/10 object-cover ${isPlaying ? 'shadow-[0_0_15px_rgba(59,130,246,0.3)]' : ''}`} 
+             className={`w-12 h-12 rounded-xl border border-black/10 object-cover ${isPlaying ? 'ring-2 ring-blue-500 ring-offset-2' : ''}`} 
            />
-           {isPlaying && (
-             <div className="absolute -bottom-1 -right-1 bg-[#12141a] rounded-full p-0.5 border border-white/10">
-               <div className="w-1.5 h-1.5 rounded-full bg-spark-accent animate-pulse"></div>
-             </div>
-           )}
         </div>
         <div className="overflow-hidden">
-          <h3 className="font-bold text-white text-sm truncate tracking-tight">{title}</h3>
+          <h3 className="font-bold text-slate-900 text-[15px] truncate tracking-tight">{title}</h3>
         </div>
       </div>
 
-      {/* Controls Section - Centered & Expanded */}
-      <div className="flex-1 flex flex-col items-center justify-center gap-1.5">
-         <div className="flex items-center gap-8">
+      {/* Controls Section - Perfectly Centered */}
+      <div className="flex-1 flex flex-col items-center justify-center gap-2 h-full py-2">
+         <div className="flex items-center gap-10">
             {onRewind && (
               <button 
                 onClick={onRewind}
-                className="text-white/30 hover:text-white transition-colors hover:scale-110 active:scale-95"
+                className="text-slate-400 hover:text-slate-900 transition-colors active:scale-95"
                 title="-10s"
               >
-                <Rewind size={16} />
+                <Rewind size={20} />
               </button>
             )}
 
             <button 
               onClick={onTogglePlay}
-              className="w-9 h-9 rounded-full bg-white text-spark-bg flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg hover:shadow-white/20"
+              className="w-11 h-11 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg hover:shadow-blue-500/40"
             >
-              {isPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" className="ml-0.5" />}
+              {isPlaying ? <Pause size={22} fill="currentColor" /> : <Play size={22} fill="currentColor" className="ml-0.5" />}
             </button>
 
             {onForward && (
               <button 
                 onClick={onForward}
-                className="text-white/30 hover:text-white transition-colors hover:scale-110 active:scale-95"
+                className="text-slate-400 hover:text-slate-900 transition-colors active:scale-95"
                 title="+10s"
               >
-                <FastForward size={16} />
+                <FastForward size={20} />
               </button>
             )}
          </div>
          
-         {/* Scrubber */}
-         <div className="w-full flex items-center gap-3 text-[10px] font-mono text-white/30">
-            <span className="w-9 text-right tabular-nums">{formatTime(currentTime)}</span>
+         <div className="w-full max-w-md flex items-center gap-3 text-[10px] font-bold text-slate-400">
+            <span className="w-10 text-right tabular-nums">{formatTime(currentTime)}</span>
             <input
               type="range"
               min="0"
               max={duration || 100}
               value={currentTime}
               onChange={(e) => onSeek(parseFloat(e.target.value))}
-              className="flex-1 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white hover:[&::-webkit-slider-thumb]:bg-spark-accent [&::-webkit-slider-thumb]:transition-colors"
+              className="flex-1 h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-600 shadow-sm transition-all hover:h-1.5"
             />
-            <span className="w-9 tabular-nums">{formatTime(duration)}</span>
+            <span className="w-10 tabular-nums">{formatTime(duration)}</span>
          </div>
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-4 pl-4 border-l border-white/5 shrink-0">
-        {actionButton}
-        
+      <div className="flex items-center gap-4 pr-6 pl-4 border-l border-slate-100 shrink-0 h-12">
         <button 
           onClick={onClose}
-          className="p-2 rounded-lg hover:bg-white/10 text-white/30 hover:text-white transition-colors"
+          className="p-3 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-900 transition-colors active:scale-90"
         >
-           <X size={18} />
+           <X size={24} />
         </button>
       </div>
     </div>

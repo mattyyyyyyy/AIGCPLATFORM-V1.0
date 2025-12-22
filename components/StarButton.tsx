@@ -18,7 +18,7 @@ function StarBackground({ color }: StarBackgroundProps) {
       viewBox="0 0 100 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="opacity-40"
+      className="opacity-20"
     >
       <g clipPath="url(#clip0_408_119)">
         <path
@@ -62,7 +62,7 @@ export function StarButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "relative z-[3] overflow-hidden h-11 px-8 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-300 disabled:pointer-events-none disabled:opacity-50 group/star-button bg-gradient-to-tr from-blue-600 to-cyan-500 text-white shadow-xl hover:shadow-blue-500/20 active:scale-[0.98]",
+        "relative z-[3] overflow-hidden h-10 px-8 rounded-xl text-sm font-bold uppercase tracking-widest transition-all duration-300 disabled:pointer-events-none disabled:opacity-50 group/star-button bg-gradient-to-tr from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/20 active:scale-[0.98] border border-transparent flex items-center justify-center gap-2",
         className,
       )}
       style={{ isolation: "isolate" } as CSSProperties}
@@ -74,7 +74,7 @@ export function StarButton({
       >
         <StarBackground color={lightColor || "transparent"} />
       </div>
-      <span className="z-10 relative inline-block text-white font-medium uppercase tracking-[0.15em] text-sm drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">
+      <span className="z-10 relative inline-block text-white">
         {children}
       </span>
     </button>

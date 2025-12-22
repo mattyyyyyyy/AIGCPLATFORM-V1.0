@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Heart } from 'lucide-react';
 import { usePlayer } from '../../../contexts/PlayerContext';
 import { useVoices } from '../../../contexts/VoiceContext';
 import PlayerBar from '../../../components/PlayerBar';
@@ -19,7 +18,7 @@ const VoicePlayer: React.FC = () => {
     closePlayer 
   } = usePlayer();
 
-  const { getVoice, toggleFavorite } = useVoices();
+  const { getVoice } = useVoices();
 
   if (!currentVoice) return null;
 
@@ -42,15 +41,6 @@ const VoicePlayer: React.FC = () => {
         onForward={() => forward(10)}
         onRewind={() => rewind(10)}
         className="rounded-2xl"
-        actionButton={
-          <button 
-            onClick={() => toggleFavorite(activeVoiceData.id)}
-            className={`p-2 rounded-lg transition-colors ${activeVoiceData.isFavorite ? 'text-red-500 hover:bg-red-500/10' : 'text-white/30 hover:text-white hover:bg-white/10'}`}
-            title="收藏"
-          >
-             <Heart size={16} fill={activeVoiceData.isFavorite ? "currentColor" : "none"} />
-          </button>
-        }
       />
     </div>
   );

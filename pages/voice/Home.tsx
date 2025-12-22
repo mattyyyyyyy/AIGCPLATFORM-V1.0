@@ -18,6 +18,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
   const { text, setText, selectedVoice, setSelectedVoice } = useTTS();
   const { voices } = useVoices();
   const { t } = useLanguage();
+  const { playVoice, currentVoice, isPlaying } = usePlayer();
   
   const [showVoiceModal, setShowVoiceModal] = useState(false);
   const [modalTab, setModalTab] = useState<'preset' | 'custom'>('preset');
@@ -27,8 +28,6 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const shadowRef = useRef<HTMLTextAreaElement>(null);
-  
-  const { playVoice, currentVoice, isPlaying } = usePlayer();
 
   useEffect(() => {
     if (shadowRef.current && textareaRef.current) {
@@ -45,6 +44,12 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
 
   const scrollToTop = () => {
     scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleStartSynthesis = () => {
+    if (!text.trim()) return;
+    // Set current voice to trigger player popup and start playing
+    playVoice(selectedVoice);
   };
 
   const featuredVoices = useMemo(() => voices.filter(v => v.source === 'preset'), [voices]);
@@ -97,11 +102,11 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
           </div>
           
           <button 
-            onClick={() => onNavigate(Page.TTS)} 
+            onClick={handleStartSynthesis} 
             disabled={!text.trim()}
-            className={`px-10 h-12 rounded-full font-medium text-[13px] uppercase tracking-[0.2em] shadow-2xl transition-all flex items-center gap-3 ${!text.trim() ? 'bg-white/5 text-white/20' : 'bg-gradient-to-tr from-blue-600 to-cyan-500 text-white hover:scale-[1.03] active:scale-[0.97] shadow-blue-500/20'}`}
+            className={`px-10 h-11 rounded-xl font-bold text-[12px] uppercase tracking-[0.2em] shadow-lg transition-all flex items-center gap-3 border border-transparent ${!text.trim() ? 'bg-white/5 text-white/20' : 'bg-gradient-to-tr from-blue-600 to-cyan-500 text-white hover:scale-[1.03] active:scale-[0.97] shadow-blue-500/30'}`}
           >
-            <Zap size={18} fill="currentColor" /> {t('go_to_tts')}
+            <Zap size={16} fill="currentColor" /> 开始合成音频
           </button>
         </div>
       </GlassCard>
