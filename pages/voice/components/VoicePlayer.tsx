@@ -27,7 +27,7 @@ const VoicePlayer: React.FC = () => {
   const isPreset = activeVoiceData.source === 'preset';
 
   return (
-    <div className="fixed bottom-6 left-80 right-8 z-50 animate-in slide-in-from-bottom-10 fade-in duration-500">
+    <div className="fixed bottom-4 left-80 right-8 z-50 animate-in slide-in-from-bottom-10 fade-in duration-500">
       <PlayerBar
         avatarUrl={activeVoiceData.avatarUrl}
         title={activeVoiceData.name}
@@ -41,13 +41,14 @@ const VoicePlayer: React.FC = () => {
         onSeek={seek}
         onForward={() => forward(10)}
         onRewind={() => rewind(10)}
+        className="rounded-2xl"
         actionButton={
           <button 
             onClick={() => toggleFavorite(activeVoiceData.id)}
             className={`p-2 rounded-lg transition-colors ${activeVoiceData.isFavorite ? 'text-red-500 hover:bg-red-500/10' : 'text-white/30 hover:text-white hover:bg-white/10'}`}
             title="收藏"
           >
-             <Heart size={18} fill={activeVoiceData.isFavorite ? "currentColor" : "none"} />
+             <Heart size={16} fill={activeVoiceData.isFavorite ? "currentColor" : "none"} />
           </button>
         }
       />

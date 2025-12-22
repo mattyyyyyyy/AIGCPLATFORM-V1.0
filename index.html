@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Audio Spark | AIGC Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
-              sans: ['"Inter"', '"PingFang SC"', 'sans-serif'],
+              sans: ['"Inter"', '"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'],
               mono: ['"JetBrains Mono"', 'monospace'],
             },
             colors: {
@@ -50,13 +50,17 @@
         background-color: #050505;
         color: #ffffff;
         overflow-x: hidden;
+        /* Force clear font rendering */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
       }
       
       /* Pure Glassmorphism Panel */
       .glass-panel {
         background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(32px);
-        -webkit-backdrop-filter: blur(32px);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.08);
       }
 
@@ -113,6 +117,5 @@
 </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

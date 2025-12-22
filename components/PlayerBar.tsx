@@ -43,7 +43,7 @@ const PlayerBar: React.FC<PlayerBarProps> = ({
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className={`bg-[#0f0f11]/80 backdrop-blur-xl border border-white/5 rounded-xl p-4 shadow-[0_8px_30px_rgba(0,0,0,0.3)] flex items-center gap-6 relative overflow-hidden group w-full transition-all duration-300 hover:bg-[#0f0f11]/90 ${className}`}>
+    <div className={`bg-[#0f0f11]/80 backdrop-blur-xl border border-white/5 rounded-xl px-6 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.3)] flex items-center gap-8 relative overflow-hidden group w-full transition-all duration-300 hover:bg-[#0f0f11]/90 ${className}`}>
       
       {/* Progress Bar Background (Bottom Line) */}
       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/5">
@@ -54,7 +54,7 @@ const PlayerBar: React.FC<PlayerBarProps> = ({
       </div>
 
       {/* Info Section - Simplified: Only avatar and title */}
-      <div className="flex items-center gap-4 min-w-[150px] max-w-[25%]">
+      <div className="flex items-center gap-4 min-w-[150px] max-w-[25%] shrink-0">
         <div className="relative shrink-0">
            <img 
              src={avatarUrl} 
@@ -68,37 +68,37 @@ const PlayerBar: React.FC<PlayerBarProps> = ({
            )}
         </div>
         <div className="overflow-hidden">
-          <h3 className="font-bold text-white text-sm truncate">{title}</h3>
+          <h3 className="font-bold text-white text-sm truncate tracking-tight">{title}</h3>
         </div>
       </div>
 
       {/* Controls Section - Centered & Expanded */}
-      <div className="flex-1 flex flex-col items-center justify-center gap-2">
-         <div className="flex items-center gap-6">
+      <div className="flex-1 flex flex-col items-center justify-center gap-1.5">
+         <div className="flex items-center gap-8">
             {onRewind && (
               <button 
                 onClick={onRewind}
                 className="text-white/30 hover:text-white transition-colors hover:scale-110 active:scale-95"
-                title="-5s"
+                title="-10s"
               >
-                <Rewind size={18} />
+                <Rewind size={16} />
               </button>
             )}
 
             <button 
               onClick={onTogglePlay}
-              className="w-8 h-8 rounded-full bg-white text-spark-bg flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg hover:shadow-white/20"
+              className="w-9 h-9 rounded-full bg-white text-spark-bg flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg hover:shadow-white/20"
             >
-              {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-0.5" />}
+              {isPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" className="ml-0.5" />}
             </button>
 
             {onForward && (
               <button 
                 onClick={onForward}
                 className="text-white/30 hover:text-white transition-colors hover:scale-110 active:scale-95"
-                title="+5s"
+                title="+10s"
               >
-                <FastForward size={18} />
+                <FastForward size={16} />
               </button>
             )}
          </div>
@@ -119,7 +119,7 @@ const PlayerBar: React.FC<PlayerBarProps> = ({
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-2 pl-4 border-l border-white/5">
+      <div className="flex items-center gap-4 pl-4 border-l border-white/5 shrink-0">
         {actionButton}
         
         <button 

@@ -20,15 +20,15 @@ const MODEL_DATA = [
 ];
 
 const SectionHeader: React.FC<{ children: React.ReactNode; action?: React.ReactNode }> = ({ children, action }) => (
-  <div className="flex items-center justify-between px-1 mb-3 mt-6 first:mt-0 select-none">
-    <div className="flex items-center gap-3 flex-1">
-      <div className="h-[1px] flex-1 bg-white/10" />
-      <span className="text-[11px] font-black text-white/40 uppercase tracking-[0.2em] whitespace-nowrap">
+  <div className="flex items-center justify-between px-1 mb-3 mt-4 first:mt-0 select-none">
+    <div className="flex items-center gap-2 flex-1">
+      <div className="h-[1px] flex-1 bg-white/15 shadow-[0_0_4px_rgba(255,255,255,0.1)]" />
+      <span className="text-[14px] font-black text-white uppercase tracking-[0.2em] whitespace-nowrap drop-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
         {children}
       </span>
-      <div className="h-[1px] flex-1 bg-white/10" />
+      <div className="h-[1px] flex-1 bg-white/15 shadow-[0_0_4px_rgba(255,255,255,0.1)]" />
     </div>
-    {action && <div className="ml-2">{action}</div>}
+    {action && <div className="ml-1">{action}</div>}
   </div>
 );
 
@@ -127,59 +127,59 @@ const PromptSidebar: React.FC<PromptSidebarProps> = ({ onSearch, onFilterChange 
   ];
 
   return (
-    <aside className="w-72 h-[calc(100vh-5rem)] fixed left-0 top-20 z-30 flex flex-col bg-[#020204]/60 backdrop-blur-2xl border-r border-white/5 transform-gpu">
-      <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
+    <aside className="w-72 h-[calc(100vh-4rem)] fixed left-0 top-16 z-30 flex flex-col bg-[#020204]/60 backdrop-blur-xl border-r border-t border-white/5 transform-gpu rounded-tr-2xl">
+      <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4">
         
-        {/* Module Title & Reset */}
-        <div className="flex items-center justify-between">
-           <div className="flex items-center gap-3 text-spark-amber">
-              <Cpu size={18} className="drop-shadow-[0_0_8px_rgba(245,158,11,0.5)]" />
-              <span className="text-sm font-black uppercase tracking-widest">提示词库</span>
+        {/* Module Title */}
+        <div className="flex items-center justify-between mb-2">
+           <div className="flex items-center gap-2.5 text-spark-amber">
+              <Cpu size={16} />
+              <span className="text-[13px] font-black uppercase tracking-widest drop-shadow-[0_0_8px_rgba(245,158,11,0.4)]">提示词库</span>
            </div>
            <button 
              onClick={resetAll} 
-             className="p-2 rounded-lg bg-white/5 text-white/30 hover:text-white hover:bg-white/10 transition-all"
-             title="重置全部筛选"
+             className="p-1.5 rounded-lg bg-white/5 text-white/30 hover:text-white hover:bg-white/10 transition-all"
+             title="重置"
            >
-             <RotateCcw size={14} />
+             <RotateCcw size={12} />
            </button>
         </div>
 
         {/* Search & Logic */}
-        <div className="space-y-3">
+        <div className="space-y-2">
            <div className="relative group">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-spark-amber transition-colors" size={14} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-spark-amber transition-colors" size={13} />
               <input 
                 value={searchQuery}
                 onChange={handleSearch}
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white text-xs focus:border-spark-amber/50 outline-none placeholder:text-white/10 transition-all shadow-inner" 
+                className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-2 pl-9 pr-3 text-[12px] text-white font-normal focus:border-spark-amber/50 outline-none placeholder:text-white/20 transition-all" 
                 placeholder="搜索提示词..." 
               />
            </div>
            <button 
              onClick={toggleLogic}
-             className={`w-full flex items-center justify-between px-4 py-2.5 rounded-xl border transition-all ${
+             className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl border transition-all ${
                 filterLogic === 'AND' 
-                ? 'bg-spark-amber/10 border-spark-amber/30 text-white shadow-[0_4px_15px_rgba(245,158,11,0.1)]' 
-                : 'bg-orange-500/10 border-orange-500/30 text-white'
+                ? 'bg-spark-amber/10 border-spark-amber/40 text-white' 
+                : 'bg-orange-500/10 border-orange-500/40 text-white'
              }`}
            >
-             <div className="flex items-center gap-2.5">
-                <Layers size={14} className={filterLogic === 'AND' ? 'text-spark-amber' : 'text-orange-400'} />
+             <div className="flex items-center gap-2">
+                <Layers size={12} className={filterLogic === 'AND' ? 'text-spark-amber' : 'text-orange-400'} />
                 <span className="text-[11px] font-black tracking-widest uppercase">
-                  {filterLogic === 'AND' ? '严谨模式 (AND)' : '模糊模式 (OR)'}
+                  {filterLogic === 'AND' ? '交集 (AND)' : '并集 (OR)'}
                 </span>
              </div>
-             <div className={`w-1.5 h-1.5 rounded-full ${filterLogic === 'AND' ? 'bg-spark-amber' : 'bg-orange-400'} shadow-[0_0_8px_currentColor]`} />
+             <div className={`w-1 h-1 rounded-full ${filterLogic === 'AND' ? 'bg-spark-amber' : 'bg-orange-400'}`} />
            </button>
         </div>
 
         {/* Model Selection */}
-        <div className="space-y-2.5">
-           <SectionHeader>模型家族</SectionHeader>
+        <div className="space-y-2">
+           <SectionHeader>模型选择</SectionHeader>
            <div className="space-y-2">
               <DropdownMenu options={brandOptions} className="w-full" menuClassName="w-full">
-                <span className="text-[11px] font-bold uppercase tracking-wider">{activeBrand || "所有模型"}</span>
+                <span className="text-[11px] font-black uppercase tracking-wider text-white/70">{activeBrand || "所有模型"}</span>
               </DropdownMenu>
 
               <DropdownMenu 
@@ -187,13 +187,13 @@ const PromptSidebar: React.FC<PromptSidebarProps> = ({ onSearch, onFilterChange 
                 className={`w-full ${!activeBrand ? 'opacity-30 pointer-events-none' : ''}`} 
                 menuClassName="w-full"
               >
-                <span className="text-[11px] font-bold uppercase tracking-wider">{activeVersion || "所有版本"}</span>
+                <span className="text-[11px] font-black uppercase tracking-wider text-white/70">{activeVersion || "所有版本"}</span>
               </DropdownMenu>
            </div>
         </div>
 
-        {/* Core Categories (Pills) */}
-        <div className="space-y-2.5">
+        {/* Categories */}
+        <div className="space-y-2">
            <SectionHeader>任务分类</SectionHeader>
            <div className="flex flex-wrap gap-2">
               {categories.map((cat) => {
@@ -205,11 +205,11 @@ const PromptSidebar: React.FC<PromptSidebarProps> = ({ onSearch, onFilterChange 
                     className={`
                       inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-wider transition-all duration-300
                       ${isActive 
-                        ? 'bg-spark-amber border-spark-amber text-black shadow-[0_0_15px_rgba(245,158,11,0.4)]' 
-                        : 'bg-white/5 border-white/10 text-white/50 hover:bg-white/10 hover:text-white'}
+                        ? 'bg-spark-amber border-spark-amber text-black shadow-[0_0_12px_rgba(245,158,11,0.5)]' 
+                        : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:text-white'}
                     `}
                   >
-                    <cat.icon size={12} className={isActive ? 'text-black' : 'text-white/30'} />
+                    <cat.icon size={10} />
                     {cat.id}
                   </button>
                 );
@@ -217,10 +217,10 @@ const PromptSidebar: React.FC<PromptSidebarProps> = ({ onSearch, onFilterChange 
            </div>
         </div>
 
-        {/* Theme Tags (Pills) */}
-        <div className="space-y-2.5">
+        {/* Popular Tags */}
+        <div className="space-y-2">
            <SectionHeader>热门标签</SectionHeader>
-           <div className="flex flex-wrap gap-2">
+           <div className="flex flex-wrap gap-1.5">
               {THEME_TAGS.map(tag => {
                 const isActive = activeTags.includes(tag);
                 return (
@@ -228,10 +228,10 @@ const PromptSidebar: React.FC<PromptSidebarProps> = ({ onSearch, onFilterChange 
                     key={tag}
                     onClick={() => toggleTag(tag)}
                     className={`
-                      inline-flex items-center rounded-full border px-3 py-1 text-[10px] font-bold transition-all duration-200
+                      inline-flex items-center rounded-md border px-2 py-0.5 text-[10px] font-bold transition-all duration-200
                       ${isActive 
-                        ? 'bg-white/10 border-spark-amber text-spark-amber shadow-[0_0_10px_rgba(245,158,11,0.2)]' 
-                        : 'bg-white/5 border-transparent text-white/40 hover:bg-white/10 hover:text-white'}
+                        ? 'bg-white/10 border-spark-amber text-spark-amber shadow-[0_0_8px_rgba(245,158,11,0.3)]' 
+                        : 'bg-white/5 border-white/10 text-white/40 hover:text-white'}
                     `}
                   >
                     #{tag}

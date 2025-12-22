@@ -1,3 +1,4 @@
+
 import { Home, Mic, Speaker, Copy, Library, User, Activity, Users } from 'lucide-react';
 import React from 'react';
 import { NAV_GROUPS } from '../../../constants';
@@ -42,7 +43,7 @@ const VoiceSidebar: React.FC<VoiceSidebarProps> = ({ currentPage, onNavigate }) 
   };
 
   return (
-    <aside className="w-72 h-[calc(100vh-5rem)] fixed left-0 top-20 z-30 flex flex-col glass-panel bg-[#020204]/60 backdrop-blur-2xl border-r border-t border-white/5 transform-gpu translate-z-0">
+    <aside className="w-72 h-[calc(100vh-4rem)] fixed left-0 top-16 z-30 flex flex-col glass-panel bg-[#020204]/60 backdrop-blur-xl border-r border-t border-white/5 transform-gpu translate-z-0 rounded-tr-2xl overflow-hidden">
       <nav className="flex-1 px-4 py-4 space-y-4 overflow-y-auto custom-scrollbar flex flex-col">
         {NAV_GROUPS.map((group, idx) => (
           <div key={idx} className="w-full flex flex-col">

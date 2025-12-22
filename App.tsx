@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 
@@ -60,7 +59,7 @@ const AppContent: React.FC = () => {
     return (
       <>
         <VoiceSidebar currentPage={currentPage} onNavigate={setCurrentPage} />
-        <main className="relative z-10 flex flex-col ml-72 px-8 pt-0 h-[calc(100vh-5rem)] mt-20">
+        <main className="relative z-10 flex flex-col ml-72 px-8 pt-0 h-[calc(100vh-4rem)] mt-16">
           <div className="flex-1 overflow-hidden flex flex-col pt-0 pb-8">
             {renderSubPage()}
           </div>
@@ -72,7 +71,7 @@ const AppContent: React.FC = () => {
 
   const renderPromptModule = () => {
     return (
-      <main className="relative z-10 w-full mt-20 h-[calc(100vh-5rem)]">
+      <main className="relative z-10 w-full mt-16 h-[calc(100vh-4rem)]">
         <PromptDiscover />
       </main>
     );
