@@ -236,7 +236,7 @@ const PromptListContainer: React.FC<PromptListContainerProps> = ({
                 key={item.id}
                 onClick={() => setSelectedPrompt(item)}
                 style={{ animationDelay: `${index * 50}ms` }}
-                className="group bg-[#0f0f11] border border-white/5 hover:border-spark-amber/40 rounded-xl p-6 transition-all duration-500 hover:bg-[#161618] hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col h-[420px] cursor-pointer relative overflow-hidden"
+                className="group glass-panel bg-[#020204]/60 backdrop-blur-xl border-white/15 rounded-xl p-6 transition-all duration-500 hover:bg-white/[0.1] hover:border-spark-amber/60 hover:shadow-[0_0_30px_rgba(245,158,11,0.2),0_0_60px_rgba(245,158,11,0.1),0_20px_50px_rgba(0,0,0,0.4)] flex flex-col h-[420px] cursor-pointer relative overflow-hidden transform-gpu"
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-spark-amber/5 blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity" />
                 <h3 className="text-xl font-medium text-white group-hover:text-spark-amber truncate transition-colors leading-tight mb-4 relative z-10">{item.title}</h3>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 
@@ -8,6 +7,7 @@ import ASR from './pages/voice/ASR';
 import TTS from './pages/voice/TTS';
 import VoiceCloning from './pages/voice/VoiceCloning';
 import Diarization from './pages/voice/Diarization'; 
+import LiveChat from './pages/voice/LiveChat';
 import VoiceLibrary from './pages/voice/VoiceLibrary';
 import VoiceSidebar from './pages/voice/components/VoiceSidebar';
 import VoicePlayer from './pages/voice/components/VoicePlayer';
@@ -33,6 +33,20 @@ const AppContent: React.FC = () => {
     currentModule === AppModule.PROMPT_LIBRARY ? Page.PROMPT_DISCOVER : Page.HOME
   );
 
+  // Background Image Management
+  useEffect(() => {
+    const bgElement = document.getElementById('global-bg-image');
+    if (bgElement) {
+      if (currentModule === AppModule.PROMPT_LIBRARY) {
+        // Updated Prompt background - Orange/Pink Abstract (.jpg)
+        bgElement.style.backgroundImage = "url('https://github.com/mattyyyyyyy/picture2bed/blob/main/%E6%A9%99%E7%B2%89%E7%B3%BB%E6%8A%BD%E8%B1%A1%E5%9B%BE1.jpg?raw=true')";
+      } else {
+        // AI Voice background - Blue Tech Abstract
+        bgElement.style.backgroundImage = "url('https://github.com/mattyyyyyyy/picture2bed/blob/main/%E8%93%9D%E8%89%B2%E7%A7%91%E6%8A%80%E6%84%9F%E6%8A%BD%E8%B1%A1%E5%9B%BE1.png?raw=true')";
+      }
+    }
+  }, [currentModule]);
+
   useEffect(() => {
     closePlayer();
     if (currentModule === AppModule.AI_VOICE) {
@@ -50,6 +64,7 @@ const AppContent: React.FC = () => {
         case Page.TTS: return <TTS />;
         case Page.VOICE_CLONING: return <VoiceCloning />;
         case Page.VOICEPRINT: return <Diarization />; 
+        case Page.LIVE_CHAT: return <LiveChat />;
         case Page.PRESET:
         case Page.CUSTOM:
           return <VoiceLibrary onNavigate={setCurrentPage} initialTab={currentPage} />;
@@ -78,44 +93,8 @@ const AppContent: React.FC = () => {
     );
   };
 
-  const isPromptModule = currentModule === AppModule.PROMPT_LIBRARY;
-
   return (
-    <div className="min-h-screen bg-spark-bg text-white font-sans selection:bg-spark-accent/40 selection:text-white overflow-hidden relative transition-colors duration-1000">
-      {/* Immersive Dynamic Dark Background Layers */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-          {/* Main Rich Gradient Background - Switch based on module */}
-          <div 
-             className={`absolute inset-0 bg-gradient-to-b transition-colors duration-1000 ease-in-out ${
-               isPromptModule 
-                 ? 'from-[#2a1205] via-[#050505] to-black'  // Warm/Orange tint for Prompt
-                 : 'from-[#0f172a] via-[#050505] to-black'  // Cool/Blue tint for Voice
-             }`} 
-          />
-          
-          {/* Animated Gradient Orbs - Switch colors based on module */}
-          <div 
-             className={`absolute top-[-20%] left-[-10%] w-[80vw] h-[80vw] rounded-full blur-[120px] animate-pulse-slow mix-blend-screen transition-colors duration-1000 ${
-               isPromptModule ? 'bg-orange-600/10' : 'bg-blue-900/10'
-             }`} 
-          />
-          <div 
-             className={`absolute bottom-[-20%] right-[-10%] w-[70vw] h-[70vw] rounded-full blur-[100px] animate-pulse-slow mix-blend-screen transition-colors duration-1000 ${
-                isPromptModule ? 'bg-pink-600/10' : 'bg-indigo-900/10'
-             }`} 
-             style={{ animationDelay: '2s' }} 
-          />
-          <div 
-             className={`absolute top-[40%] left-[30%] w-[40vw] h-[40vw] rounded-full blur-[150px] animate-pulse-slow mix-blend-screen transition-colors duration-1000 ${
-                isPromptModule ? 'bg-amber-600/5' : 'bg-purple-900/5'
-             }`} 
-             style={{ animationDelay: '4s' }} 
-          />
-          
-          {/* Moving Mesh Gradient Overlay */}
-          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03),transparent_70%)]" />
-      </div>
-
+    <div className="relative flex flex-col min-h-screen w-full">
       <Navbar />
 
       {currentModule === AppModule.AI_VOICE && renderAiVoiceModule()}

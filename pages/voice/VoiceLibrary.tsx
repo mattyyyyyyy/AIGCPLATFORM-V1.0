@@ -184,7 +184,7 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
                 <div 
                   key={voice.id} 
                   style={{ animationDelay: `${idx * 15}ms` }}
-                  className={`group flex flex-col p-3.5 rounded-xl transition-all duration-300 border animate-in fade-in slide-in-from-bottom-1 ${isEditing ? 'bg-spark-accent/5 border-spark-accent/40 shadow-xl' : playing ? 'bg-white/10 border-white/20 shadow-md' : 'bg-[#161618] border-white/10 hover:border-white/20'}`}
+                  className={`glass-panel group flex flex-col p-3.5 rounded-xl transition-all duration-300 border animate-in fade-in slide-in-from-bottom-1 ${isEditing ? 'bg-spark-accent/10 border-spark-accent/40 shadow-xl' : playing ? 'bg-white/15 border-white/30 shadow-md' : 'border-white/10 hover:border-white/20 hover:bg-white/[0.06]'}`}
                 >
                   {isEditing && (
                     <div className="mb-3 space-y-2 animate-in fade-in slide-in-from-top-1">
@@ -240,7 +240,7 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
                       <div className="flex flex-col items-end gap-1.5">
                         <button 
                           onClick={() => { setSelectedVoice(voice); onNavigate(Page.TTS); }} 
-                          className={`px-3 py-1 rounded-md text-[10px] font-medium tracking-wide transition-all border shrink-0 ${isSelected ? 'bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent text-white' : 'bg-white/5 border-white/10 text-white/50 hover:text-white hover:bg-white/10'}`}
+                          className={`px-3 py-1 rounded-md text-[10px] font-medium tracking-wide transition-all border shrink-0 ${isSelected ? 'bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent text-white shadow-sm' : 'bg-white/5 border-white/10 text-white/50 hover:text-white hover:bg-white/10'}`}
                         >
                           {isSelected ? '已选' : '使用'}
                         </button>
@@ -256,7 +256,7 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
                     
                     {isEditing && (
                       <div className="flex flex-col gap-1 shrink-0 pt-4">
-                        <button onClick={() => saveEdit(voice.id)} className="p-2 bg-spark-accent hover:bg-blue-500 rounded-lg text-white transition-colors" title="保存"><Check size={14}/></button>
+                        <button onClick={() => saveEdit(voice.id)} className="p-2 bg-spark-accent hover:bg-blue-500 rounded-lg text-white transition-colors shadow-lg" title="保存"><Check size={14}/></button>
                         <button onClick={() => setEditingId(null)} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-white/40" title="取消"><CloseIcon size={14}/></button>
                       </div>
                     )}
@@ -268,7 +268,7 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
 
           {getFilteredVoices().length === 0 && (
              <div className="h-full flex flex-col items-center justify-center text-white/60">
-                <Search size={48} className="mb-4" />
+                <Search size={48} className="mb-4 opacity-10" />
                 <p className="text-[13px] font-medium uppercase tracking-[0.3em]">无匹配音色</p>
              </div>
           )}
@@ -277,7 +277,7 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
        {showBackToTop && (
         <button 
           onClick={scrollToTop} 
-          className="fixed bottom-12 right-12 z-[100] p-3 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20 text-white shadow-2xl hover:scale-110 active:scale-95 transition-all duration-500"
+          className="fixed bottom-12 right-12 z-[100] p-3 rounded-xl bg-white text-black shadow-2xl hover:scale-110 active:scale-95 transition-all duration-500"
         >
           <ArrowUp size={20} />
         </button>

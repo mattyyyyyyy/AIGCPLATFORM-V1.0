@@ -1,5 +1,5 @@
 
-import { Home, Mic, Speaker, Copy, Library, User, Activity, Users } from 'lucide-react';
+import { Home, Mic, Speaker, Copy, Library, User, Activity, Users, Zap } from 'lucide-react';
 import React from 'react';
 import { NAV_GROUPS } from '../../../constants';
 import { useLanguage } from '../../../contexts/LanguageContext';
@@ -22,6 +22,7 @@ const VoiceSidebar: React.FC<VoiceSidebarProps> = ({ currentPage, onNavigate }) 
       case 'Speaker': return Speaker;
       case 'Copy': return Copy;
       case 'Users': return Users;
+      case 'Zap': return Zap;
       default: return Activity;
     }
   };
@@ -38,6 +39,7 @@ const VoiceSidebar: React.FC<VoiceSidebarProps> = ({ currentPage, onNavigate }) 
         case Page.TTS: return 'tts';
         case Page.VOICE_CLONING: return 'voice_cloning';
         case Page.VOICEPRINT: return 'diarization';
+        case Page.LIVE_CHAT: return 'live_chat';
         default: return id;
     }
   };
@@ -48,12 +50,14 @@ const VoiceSidebar: React.FC<VoiceSidebarProps> = ({ currentPage, onNavigate }) 
         {NAV_GROUPS.map((group, idx) => (
           <div key={idx} className="w-full flex flex-col">
             {group.title !== '主菜单' && (
-              <div className="flex items-center gap-3 px-1 mb-3 mt-4 first:mt-0 select-none pointer-events-none">
-                <div className="h-[1px] flex-1 bg-white/30 shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
-                <span className="text-[14px] font-semibold text-white uppercase tracking-[0.2em] drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] whitespace-nowrap">
-                  {t(getTranslationKey(group.id))}
-                </span>
-                <div className="h-[1px] flex-1 bg-white/30 shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
+              <div className="flex items-center justify-between px-1 mb-3 mt-4 first:mt-0 select-none pointer-events-none">
+                <div className="flex items-center gap-2 flex-1">
+                  <div className="h-[1px] flex-1 bg-white/15 shadow-[0_0_4px_rgba(255,255,255,0.1)]" />
+                  <span className="text-[14px] font-medium text-white uppercase tracking-[0.2em] whitespace-nowrap drop-shadow-[0_0_6px_rgba(255,255,255,0.5)]">
+                    {t(getTranslationKey(group.id))}
+                  </span>
+                  <div className="h-[1px] flex-1 bg-white/15 shadow-[0_0_4px_rgba(255,255,255,0.1)]" />
+                </div>
               </div>
             )}
             <div className="space-y-1 w-full">

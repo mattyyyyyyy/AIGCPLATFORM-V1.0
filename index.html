@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="dark">
   <head>
@@ -6,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Audio Spark | AIGC Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
-              sans: ['"Inter"', '"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'],
+              sans: ['"Inter"', '"Noto Sans SC"', '"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'],
               mono: ['"JetBrains Mono"', 'monospace'],
             },
             colors: {
@@ -39,7 +38,7 @@
               'star-btn': {
                 '0%': { offsetDistance: '0%' },
                 '100%': { offsetDistance: '100%' },
-              }
+              },
             }
           },
         },
@@ -47,21 +46,61 @@
     </script>
     <style>
       body {
-        background-color: #050505;
+        margin: 0;
+        padding: 0;
+        background-color: transparent; 
         color: #ffffff;
+        min-height: 100vh;
         overflow-x: hidden;
-        /* Force clear font rendering */
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
       }
+
+      /* 1. 最底层：背景图片层 */
+      #global-bg-image {
+        position: fixed;
+        inset: 0;
+        z-index: -3;
+        background-color: #050505; 
+        background-image: url('https://github.com/mattyyyyyyy/picture2bed/blob/main/%E8%93%9D%E8%89%B2%E7%A7%91%E6%8A%80%E6%84%9F%E6%8A%BD%E8%B1%A1%E5%9B%BE1.png?raw=true');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        pointer-events: none;
+        filter: saturate(1.2) brightness(0.9);
+        /* 增加平滑过渡 */
+        transition: background-image 0.8s ease-in-out;
+      }
+
+      /* 2. 中间层：轻度毛玻璃遮罩 */
+      #global-bg-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background-color: rgba(0, 0, 0, 0.15); 
+        /* Reduced blur from 20px to 12px for better clarity */
+        backdrop-filter: blur(12px); 
+        -webkit-backdrop-filter: blur(12px);
+        pointer-events: none;
+      }
+
+      /* 3. 顶层装饰：噪点层 (Texture) */
+      #global-bg-noise {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        pointer-events: none;
+        mix-blend-mode: soft-light;
+      }
       
-      /* Pure Glassmorphism Panel */
       .glass-panel {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.035);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255, 255, 255, 0.12); 
       }
 
       .custom-scrollbar::-webkit-scrollbar {
@@ -82,7 +121,6 @@
         display: none;
       }
 
-      /* Consistent Range Slider */
       input[type='range'].glow-slider {
         -webkit-appearance: none;
         appearance: none;
@@ -116,7 +154,10 @@
 </script>
 </head>
   <body>
+    <!-- 独立的层级结构 -->
+    <div id="global-bg-image"></div>
+    <div id="global-bg-overlay"></div>
+    <div id="global-bg-noise"></div>
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

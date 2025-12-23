@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Home, Mic, Speaker, Copy, Users, Library, Globe, User, Heart, Activity, Settings, X, Plus, Trash2, Volume2 } from 'lucide-react';
+import { Home, Mic, Speaker, Copy, Users, Library, Globe, User, Heart, Activity, Settings, X, Plus, Trash2, Volume2, Zap } from 'lucide-react';
 import { Page } from '../types';
 import { NAV_GROUPS } from '../constants';
 import { useVoices } from '../contexts/VoiceContext';
@@ -28,6 +28,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate }) => {
       case 'Speaker': return Speaker;
       case 'Copy': return Copy;
       case 'Users': return Users;
+      case 'Zap': return Zap;
       default: return Activity;
     }
   };
@@ -52,6 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate }) => {
         case Page.TTS: return 'tts';
         case Page.VOICE_CLONING: return 'voice_cloning';
         case Page.VOICEPRINT: return 'diarization';
+        case Page.LIVE_CHAT: return 'live_chat';
         default: return id;
     }
   };

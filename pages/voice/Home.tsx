@@ -86,7 +86,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
           />
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-20 bg-black/60 border-t border-white/5 backdrop-blur-3xl flex items-center justify-between px-8 rounded-b-2xl">
+        <div className="absolute bottom-0 left-0 right-0 h-20 bg-white/[0.02] border-t border-white/10 backdrop-blur-3xl flex items-center justify-between px-8 rounded-b-2xl shadow-[0_-10px_30px_rgba(0,0,0,0.1)]">
           <div className="flex items-center gap-4">
             <div 
               onClick={() => setShowVoiceModal(true)} 
@@ -127,7 +127,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
               <div 
                 key={voice.id} 
                 style={{ animationDelay: `${idx * 40}ms` }}
-                className={`group flex items-center p-3 rounded-xl transition-all duration-300 border animate-in fade-in slide-in-from-bottom-4 ${playing ? 'bg-white/10 border-white/20 scale-[1.02]' : 'bg-white/5 border-white/5 hover:border-white/10'}`}
+                className={`glass-panel group flex items-center p-3 rounded-xl transition-all duration-300 border animate-in fade-in slide-in-from-bottom-4 ${playing ? 'bg-white/15 border-white/30 scale-[1.02] shadow-[0_10px_25px_rgba(0,0,0,0.2)]' : 'hover:bg-white/[0.08] hover:border-white/20'}`}
               >
                 <div className="relative cursor-pointer shrink-0 mr-3" onClick={() => playVoice(voice)}>
                     <img src={voice.avatarUrl} alt={voice.name} className="w-11 h-11 rounded-lg object-cover bg-black/20 border border-white/10" />
@@ -142,7 +142,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
                 <div className="shrink-0">
                    <button 
                      onClick={() => { setSelectedVoice(voice); onNavigate(Page.TTS); }} 
-                     className={`px-3 py-1.5 rounded-lg text-[10px] font-medium uppercase tracking-wider transition-all border ${isSelected ? 'bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent text-white' : 'bg-white/5 border-white/10 text-white/40 hover:text-white hover:bg-white/10'}`}
+                     className={`px-3 py-1.5 rounded-lg text-[10px] font-medium uppercase tracking-wider transition-all border ${isSelected ? 'bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent text-white shadow-md' : 'bg-white/5 border-white/10 text-white/40 hover:text-white hover:bg-white/10'}`}
                    >
                      {isSelected ? '已选' : '使用'}
                    </button>

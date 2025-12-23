@@ -8,6 +8,7 @@ export enum Page {
   TTS = 'TTS',
   VOICE_CLONING = 'VOICE_CLONING',
   VOICEPRINT = 'VOICEPRINT', // 重命名：声纹识别
+  LIVE_CHAT = 'LIVE_CHAT', // Added Live Chat
   
   // Prompt Module
   PROMPT_DISCOVER = 'PROMPT_DISCOVER',

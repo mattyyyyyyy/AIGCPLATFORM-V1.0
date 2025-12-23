@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import PromptSidebar from './components/PromptSidebar';
 import PromptListContainer from './components/PromptListContainer';
@@ -30,17 +29,21 @@ const PromptDiscover: React.FC = () => {
       
       {/* Main Content Waterfall Area */}
       <div className="flex-1 ml-72 px-8 pt-0 pb-8 overflow-hidden flex flex-col">
-        {/* Module Header - Tighter padding */}
-        <div className="flex justify-between items-center shrink-0 py-1 mb-3 border-b border-white/5">
-          <h1 className="text-xl font-light text-white uppercase tracking-tighter">提示词探索</h1>
-          <div className="text-[9px] font-medium text-white/20 uppercase tracking-[0.3em]">Unleash the power of creative instructions</div>
+        {/* Module Header - Simplified & Optimized Spacing to match Home Page style */}
+        <div className="flex flex-col shrink-0 pt-4 pb-2 space-y-2">
+          <h1 className="text-5xl font-light text-white tracking-[0.2em]">“灵感”咒语库</h1>
+          <div className="text-[11px] font-normal text-white/50 uppercase tracking-[0.3em] ml-1">
+            寻找适合您想法的提示词
+          </div>
         </div>
         
-        {/* Waterfall Container */}
-        <PromptListContainer 
-          searchQuery={searchQuery} 
-          filters={filters} 
-        />
+        {/* Waterfall Container - Starts closer to the title */}
+        <div className="flex-1 mt-2 overflow-hidden flex flex-col">
+          <PromptListContainer 
+            searchQuery={searchQuery} 
+            filters={filters} 
+          />
+        </div>
       </div>
     </div>
   );
