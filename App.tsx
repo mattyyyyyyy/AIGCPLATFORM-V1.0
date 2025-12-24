@@ -38,11 +38,13 @@ const AppContent: React.FC = () => {
     const bgElement = document.getElementById('global-bg-image');
     if (bgElement) {
       if (currentModule === AppModule.PROMPT_LIBRARY) {
-        // Updated Prompt background - Orange/Pink Abstract (.jpg)
         bgElement.style.backgroundImage = "url('https://github.com/mattyyyyyyy/picture2bed/blob/main/%E6%A9%99%E7%B2%89%E7%B3%BB%E6%8A%BD%E8%B1%A1%E5%9B%BE1.jpg?raw=true')";
-      } else {
-        // AI Voice background - Blue Tech Abstract
+      } else if (currentModule === AppModule.AI_VOICE) {
         bgElement.style.backgroundImage = "url('https://github.com/mattyyyyyyy/picture2bed/blob/main/%E8%93%9D%E8%89%B2%E7%A7%91%E6%8A%80%E6%84%9F%E6%8A%BD%E8%B1%A1%E5%9B%BE1.png?raw=true')";
+      } else {
+        // 数字人模式下可以隐藏背景或设为纯黑
+        bgElement.style.backgroundImage = "none";
+        bgElement.style.backgroundColor = "#000000";
       }
     }
   }, [currentModule]);

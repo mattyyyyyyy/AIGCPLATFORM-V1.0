@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Globe, Check } from 'lucide-react';
 import { Language } from '../../locales/translations';
@@ -39,7 +38,7 @@ const Navbar: React.FC<NavbarProps> = ({ lang, setLang, t, onNavClick, currentTa
       {/* Center: Tabs */}
       <div className="flex items-center gap-8">
         <button 
-          onClick={() => window.open('https://jdo-aigcplatfoorm-v2-0.vercel.app/', '_blank')}
+          onClick={() => window.open('https://newshuziren.vercel.app/', '_blank')}
           className={`text-sm font-bold tracking-widest transition-all uppercase ${currentTab === 'digital-human' ? 'text-white' : 'text-white/40 hover:text-white'}`}
         >
           {lang === 'CN' ? '数字人' : 'Digital Human'}

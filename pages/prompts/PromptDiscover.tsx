@@ -29,16 +29,16 @@ const PromptDiscover: React.FC = () => {
       
       {/* Main Content Waterfall Area */}
       <div className="flex-1 ml-72 px-8 pt-0 pb-8 overflow-hidden flex flex-col">
-        {/* Module Header - Simplified & Optimized Spacing to match Home Page style */}
-        <div className="flex flex-col shrink-0 pt-4 pb-2 space-y-2">
-          <h1 className="text-5xl font-light text-white tracking-[0.2em]">“灵感”咒语库</h1>
+        {/* Module Header - Refined Typography & Spacing */}
+        <div className="flex flex-col shrink-0 pt-6 space-y-2">
+          <h1 className="text-5xl font-light text-white tracking-[0.2em]">灵感“咒语”库</h1>
           <div className="text-[11px] font-normal text-white/50 uppercase tracking-[0.3em] ml-1">
             寻找适合您想法的提示词
           </div>
         </div>
         
-        {/* Waterfall Container - Starts closer to the title */}
-        <div className="flex-1 mt-2 overflow-hidden flex flex-col">
+        {/* Waterfall Container - Adjusted margin to match Home Page rhythm */}
+        <div className="flex-1 mt-6 overflow-hidden flex flex-col">
           <PromptListContainer 
             searchQuery={searchQuery} 
             filters={filters} 

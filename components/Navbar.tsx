@@ -1,4 +1,3 @@
-
 import React, { memo } from 'react';
 import { Globe, Check } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -32,6 +31,7 @@ const Navbar: React.FC = () => {
   ];
 
   const handleModuleClick = (id: AppModule) => {
+    // 恢复页面内跳转逻辑
     setModule(id);
   };
 
@@ -51,13 +51,13 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 z-40 flex items-center justify-between px-10 md:px-14 bg-transparent transition-all duration-300 pointer-events-none">
+    <nav className="fixed top-0 left-0 right-0 h-16 z-50 flex items-center justify-between px-10 md:px-14 bg-transparent transition-all duration-300 pointer-events-none">
       {/* Left: Logo */}
       <div className="flex items-center gap-3 select-none min-w-[200px] h-full cursor-pointer pointer-events-auto group" onClick={() => setModule(AppModule.AI_VOICE)}>
          <JDOLogo />
       </div>
       
-      {/* Center: Unified Modular Switcher (Rectangular with rounded corners) */}
+      {/* Center: Unified Modular Switcher */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center z-50 pointer-events-auto">
          <div className="flex items-center gap-12 px-8 py-2.5 rounded-xl bg-white/[0.04] backdrop-blur-lg border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
             {menuItems.map((item) => {
@@ -79,7 +79,7 @@ const Navbar: React.FC = () => {
          </div>
       </div>
       
-      {/* Right: Language Switcher - Smaller size, less gap */}
+      {/* Right: Language Switcher */}
       <div className="relative z-50 flex items-center justify-end gap-6 min-w-[200px] pointer-events-auto">
         <DropdownMenu options={langOptions} className="w-fit" menuClassName="right-0">
           <div className="flex items-center gap-1.5 px-1 py-0.5 font-black uppercase tracking-widest text-[9px]">
