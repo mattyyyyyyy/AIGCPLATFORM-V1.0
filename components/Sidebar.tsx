@@ -53,7 +53,6 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, onNavigate }) => {
         case Page.TTS: return 'tts';
         case Page.VOICE_CLONING: return 'voice_cloning';
         case Page.VOICEPRINT: return 'diarization';
-        case Page.LIVE_CHAT: return 'live_chat';
         default: return id;
     }
   };

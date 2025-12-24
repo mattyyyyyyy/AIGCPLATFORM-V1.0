@@ -1,7 +1,6 @@
 
 import { Voice, Page } from './types';
 
-// Category mapping for translation
 export const CATEGORY_MAP: Record<string, string> = {
   'Social Media': '社交媒体',
   'Character': '角色演绎',
@@ -9,12 +8,10 @@ export const CATEGORY_MAP: Record<string, string> = {
   'News': '新闻播报',
 };
 
-// Helper to translate voice categories
 export const translateCategory = (category: string) => CATEGORY_MAP[category] || category;
 
 const DEMO_AUDIO = 'https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3';
 
-// Mock data for preset voices
 export const MOCK_VOICES: Voice[] = [
   {
     id: 'v1',
@@ -262,12 +259,10 @@ export const NAV_GROUPS = [
       { id: Page.TTS, label: '语音合成', icon: 'Speaker' },
       { id: Page.VOICE_CLONING, label: '声音克隆', icon: 'Copy' },
       { id: Page.VOICEPRINT, label: '声纹识别', icon: 'Users' },
-      { id: Page.LIVE_CHAT, label: '实时对话', icon: 'Zap' },
     ]
   }
 ];
 
-// Mock texts for voice cloning recording
 export const RANDOM_READING_TEXTS = [
   "人工智能正在深刻地改变着我们的生活方式 and 工作模式。",
   "在这片广袤的土地上，孕育了无数灿烂的文化和悠久的历史。",

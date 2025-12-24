@@ -28,7 +28,6 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
   const [searchQuery, setSearchQuery] = useState('');
   const [showBackToTop, setShowBackToTop] = useState(false);
   
-  // 编辑状态
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
   const [editNotes, setEditNotes] = useState('');
@@ -83,10 +82,7 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
   };
 
   const saveEdit = (id: string) => {
-    updateVoice(id, {
-      name: editName,
-      notes: editNotes
-    });
+    updateVoice(id, { name: editName, notes: editNotes });
     setEditingId(null);
   };
 
@@ -101,14 +97,12 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
 
   return (
     <div className="h-full flex flex-col gap-0 animate-in fade-in duration-500 relative">
-       {/* Header with increased clarity */}
        <div className="flex items-center justify-between shrink-0 py-2.5 mb-4 border-b border-white/5 relative z-30">
           <div className="flex items-center gap-6">
-            <h1 className="text-xl font-medium text-white uppercase tracking-widest shrink-0">
+            <h1 className="text-xl font-light text-white uppercase tracking-widest shrink-0">
               {isCustomPage ? '自定义声音' : '预设声音'}
             </h1>
             
-            {/* Search Bar */}
             <div className="relative group min-w-[200px] md:min-w-[260px]">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-spark-accent transition-colors" size={14} />
               <input 
@@ -119,12 +113,11 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
               />
             </div>
 
-            {/* Actions area - Filter hidden on custom page */}
             <div className="flex items-center gap-3 relative h-9">
               {!isCustomPage && (
                 <button 
                   onClick={() => setShowFilterPanel(!showFilterPanel)} 
-                  className={`px-4 py-1 rounded-xl border text-[13px] font-medium transition-all flex items-center gap-2 whitespace-nowrap h-full ${showFilterPanel ? 'bg-spark-accent/20 border-spark-accent/40 text-white' : 'bg--[#161618] border-white/10 text-white/60 hover:bg-white/5 hover:text-white'}`}
+                  className={`px-4 py-1 rounded-xl border text-[13px] font-medium transition-all flex items-center gap-2 whitespace-nowrap h-full ${showFilterPanel ? 'bg-spark-accent/20 border-spark-accent/40 text-white' : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/5 hover:text-white'}`}
                 >
                   <Filter size={12} /> 筛选
                 </button>
@@ -167,99 +160,111 @@ const VoiceLibrary: React.FC<VoiceLibraryProps> = ({ onNavigate, initialTab = Pa
           </div>
        </div>
 
-       {/* List area */}
        <div 
          ref={scrollContainerRef}
          onScroll={handleScroll}
          className="flex-1 overflow-y-auto pb-28 custom-scrollbar scroll-smooth"
        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-in fade-in duration-700">
             {getFilteredVoices().map((voice, idx) => {
               const playing = currentVoice?.id === voice.id && isPlaying;
               const isSelected = selectedVoice.id === voice.id;
               const isEditing = editingId === voice.id;
               const isCustom = voice.source === 'custom' || voice.isCustom;
 
+              // 自定义声音使用紧凑的历史记录风格卡片
+              if (isCustom) {
+                return (
+                  <div 
+                    key={voice.id}
+                    className={`p-3.5 rounded-xl bg-white/5 backdrop-blur-sm border transition-all duration-300 relative group flex flex-col gap-2 ${isEditing ? 'border-spark-accent/60 bg-white/10 ring-1 ring-spark-accent/30' : playing ? 'border-spark-accent/30 bg-white/10' : 'border-white/5 hover:border-spark-accent/30'}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="relative shrink-0" onClick={() => !isEditing && playVoice(voice)}>
+                        <img src={voice.avatarUrl} alt={voice.name} className="w-10 h-10 rounded-lg object-cover border border-white/10 shadow-lg" />
+                        {!isEditing && (
+                          <div className={`absolute inset-0 rounded-lg flex items-center justify-center bg-black/40 transition-all ${playing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                            {playing ? <Pause size={14} fill="white" className="text-white" /> : <Play size={14} fill="white" className="text-white ml-0.5" />}
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        {isEditing ? (
+                          <input 
+                            value={editName}
+                            onChange={e => setEditName(e.target.value)}
+                            className="w-full bg-black/40 border border-white/20 rounded-lg px-2 py-1 text-sm font-medium text-white outline-none focus:border-spark-accent"
+                          />
+                        ) : (
+                          <h3 className={`text-[14px] font-medium truncate tracking-tight transition-colors ${playing ? 'text-spark-accent font-bold' : 'text-white'}`}>{voice.name}</h3>
+                        )}
+                        <div className="flex items-center gap-2 mt-0.5">
+                           <span className="text-[9px] text-white/30 uppercase tracking-widest font-medium">Custom Voice</span>
+                        </div>
+                      </div>
+
+                      {!isEditing ? (
+                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                           <button onClick={() => startEditing(voice)} className="p-1.5 text-white/30 hover:text-white hover:bg-white/10 rounded-md transition-all"><Edit3 size={12}/></button>
+                           <button onClick={(e) => handleDelete(voice.id, e)} className="p-1.5 text-white/30 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-all"><Trash2 size={12}/></button>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1">
+                           <button onClick={() => saveEdit(voice.id)} className="p-1.5 bg-spark-accent rounded-md text-white shadow-lg"><Check size={12}/></button>
+                           <button onClick={() => setEditingId(null)} className="p-1.5 bg-white/10 rounded-md text-white/40"><CloseIcon size={12}/></button>
+                        </div>
+                      )}
+                    </div>
+                    {isEditing ? (
+                      <textarea 
+                        value={editNotes} 
+                        onChange={e => setEditNotes(e.target.value)} 
+                        rows={2}
+                        className="w-full bg-black/40 border border-white/20 rounded-lg px-2.5 py-2 text-[11px] text-white/80 font-normal outline-none focus:border-spark-accent resize-none mt-1 animate-in slide-in-from-top-1"
+                        placeholder="备注信息..."
+                      />
+                    ) : (
+                      voice.notes && <p className="text-[11px] text-white/40 font-normal leading-relaxed italic line-clamp-2 px-1">"{voice.notes}"</p>
+                    )}
+                    <button 
+                      onClick={() => { setSelectedVoice(voice); onNavigate(Page.TTS); }} 
+                      className={`w-full mt-1 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-widest transition-all border ${isSelected ? 'bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent text-white shadow-md' : 'bg-white/5 border-white/5 text-white/40 hover:text-white hover:border-white/20'}`}
+                    >
+                      {isSelected ? '已选音色' : '立即使用'}
+                    </button>
+                  </div>
+                );
+              }
+
+              // 预设声音保持原有玻璃卡片风格
               return (
                 <div 
                   key={voice.id} 
-                  style={{ animationDelay: `${idx * 15}ms` }}
-                  className={`glass-panel group flex flex-col p-3.5 rounded-xl transition-all duration-300 border animate-in fade-in slide-in-from-bottom-1 ${isEditing ? 'bg-spark-accent/10 border-spark-accent/40 shadow-xl' : playing ? 'bg-white/15 border-white/30 shadow-md' : 'border-white/10 hover:border-white/20 hover:bg-white/[0.06]'}`}
+                  className={`glass-panel group flex flex-col p-3.5 rounded-xl transition-all duration-300 border ${playing ? 'bg-white/15 border-white/30 shadow-md' : 'border-white/10 hover:border-white/20 hover:bg-white/[0.06]'}`}
                 >
-                  {isEditing && (
-                    <div className="mb-3 space-y-2 animate-in fade-in slide-in-from-top-1">
-                       <label className="text-sm font-bold text-white uppercase tracking-wider ml-0.5">备注信息</label>
-                       <textarea 
-                          value={editNotes} 
-                          onChange={e => setEditNotes(e.target.value)} 
-                          rows={2}
-                          className="w-full bg-black/40 border border-white/20 rounded-lg px-2.5 py-2 text-[11px] text-white font-normal outline-none focus:border-spark-accent resize-none"
-                          placeholder="填写声音备注..."
-                       />
-                    </div>
-                  )}
-
                   <div className="flex items-center gap-3">
-                    <div className="relative cursor-pointer shrink-0" onClick={() => !isEditing && playVoice(voice)}>
+                    <div className="relative cursor-pointer shrink-0" onClick={() => playVoice(voice)}>
                         <img src={voice.avatarUrl} alt={voice.name} className="w-11 h-11 rounded-lg object-cover bg-black/20 border border-white/10" />
-                        {!isEditing && (
-                          <div className={`absolute inset-0 rounded-lg flex items-center justify-center bg-black/40 transition-all ${playing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                            {playing ? <Pause size={16} fill="white" className="text-white" /> : <Play size={16} fill="white" className="text-white ml-0.5" />}
-                          </div>
-                        )}
+                        <div className={`absolute inset-0 rounded-lg flex items-center justify-center bg-black/40 transition-all ${playing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                          {playing ? <Pause size={16} fill="white" className="text-white" /> : <Play size={16} fill="white" className="text-white ml-0.5" />}
+                        </div>
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                       {isEditing ? (
-                         <div className="space-y-1">
-                           <label className="text-sm font-bold text-white uppercase tracking-wider ml-0.5">名称</label>
-                           <input 
-                             value={editName}
-                             onChange={e => setEditName(e.target.value)}
-                             className="w-full bg-black/40 border border-white/20 rounded-lg px-2 py-1.5 text-sm font-medium text-white outline-none focus:border-spark-accent"
-                             placeholder="填写声音名称…"
-                           />
-                         </div>
-                       ) : (
-                         <div className="flex flex-col gap-0.5">
-                            <div className="flex items-center gap-1.5">
-                               <h3 className={`text-[14px] font-medium truncate leading-tight transition-colors ${playing ? 'text-spark-accent' : 'text-white'}`}>{voice.name}</h3>
-                               {isSelected && <Zap size={10} className="text-spark-accent fill-spark-accent shrink-0" />}
-                            </div>
-                            {!isCustom && (
-                              <p className="text-[10px] text-white/50 uppercase font-normal tracking-widest truncate">{translateCategory(voice.category)}</p>
-                            )}
-                            {isCustom && voice.notes && (
-                              <p className="text-[10px] text-white/30 italic truncate max-w-[120px]">“{voice.notes}”</p>
-                            )}
-                         </div>
-                       )}
+                       <div className="flex items-center gap-1.5">
+                          <h3 className={`text-[14px] font-medium truncate leading-tight transition-colors ${playing ? 'text-spark-accent font-bold' : 'text-white'}`}>{voice.name}</h3>
+                          {isSelected && <Zap size={10} className="text-spark-accent fill-spark-accent shrink-0" />}
+                       </div>
+                       <p className="text-[10px] text-white/50 uppercase font-normal tracking-widest truncate">{translateCategory(voice.category)}</p>
                     </div>
 
-                    {!isEditing && (
-                      <div className="flex flex-col items-end gap-1.5">
-                        <button 
-                          onClick={() => { setSelectedVoice(voice); onNavigate(Page.TTS); }} 
-                          className={`px-3 py-1 rounded-md text-[10px] font-medium tracking-wide transition-all border shrink-0 ${isSelected ? 'bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent text-white shadow-sm' : 'bg-white/5 border-white/10 text-white/50 hover:text-white hover:bg-white/10'}`}
-                        >
-                          {isSelected ? '已选' : '使用'}
-                        </button>
-                        
-                        {isCustom && (
-                          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onClick={() => startEditing(voice)} className="p-1 text-white/30 hover:text-white hover:bg-white/10 rounded" title="编辑资料"><Edit3 size={11}/></button>
-                            <button onClick={(e) => handleDelete(voice.id, e)} className="p-1 text-white/30 hover:text-red-500 hover:bg-red-500/10 rounded" title="永久删除"><Trash2 size={11}/></button>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    
-                    {isEditing && (
-                      <div className="flex flex-col gap-1 shrink-0 pt-4">
-                        <button onClick={() => saveEdit(voice.id)} className="p-2 bg-spark-accent hover:bg-blue-500 rounded-lg text-white transition-colors shadow-lg" title="保存"><Check size={14}/></button>
-                        <button onClick={() => setEditingId(null)} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg text-white/40" title="取消"><CloseIcon size={14}/></button>
-                      </div>
-                    )}
+                    <button 
+                      onClick={() => { setSelectedVoice(voice); onNavigate(Page.TTS); }} 
+                      className={`px-3 py-1 rounded-md text-[10px] font-medium tracking-wide transition-all border shrink-0 ${isSelected ? 'bg-gradient-to-tr from-blue-600 to-cyan-500 border-transparent text-white shadow-sm' : 'bg-white/5 border-white/10 text-white/50 hover:text-white hover:bg-white/10'}`}
+                    >
+                      {isSelected ? '已选' : '使用'}
+                    </button>
                   </div>
                 </div>
               );

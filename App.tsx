@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 
@@ -7,7 +8,6 @@ import ASR from './pages/voice/ASR';
 import TTS from './pages/voice/TTS';
 import VoiceCloning from './pages/voice/VoiceCloning';
 import Diarization from './pages/voice/Diarization'; 
-import LiveChat from './pages/voice/LiveChat';
 import VoiceLibrary from './pages/voice/VoiceLibrary';
 import VoiceSidebar from './pages/voice/components/VoiceSidebar';
 import VoicePlayer from './pages/voice/components/VoicePlayer';
@@ -42,7 +42,7 @@ const AppContent: React.FC = () => {
       } else if (currentModule === AppModule.AI_VOICE) {
         bgElement.style.backgroundImage = "url('https://github.com/mattyyyyyyy/picture2bed/blob/main/%E8%93%9D%E8%89%B2%E7%A7%91%E6%8A%80%E6%84%9F%E6%8A%BD%E8%B1%A1%E5%9B%BE1.png?raw=true')";
       } else {
-        // 数字人模式下可以隐藏背景或设为纯黑
+        // 数字人模式下背景纯黑
         bgElement.style.backgroundImage = "none";
         bgElement.style.backgroundColor = "#000000";
       }
@@ -66,7 +66,6 @@ const AppContent: React.FC = () => {
         case Page.TTS: return <TTS />;
         case Page.VOICE_CLONING: return <VoiceCloning />;
         case Page.VOICEPRINT: return <Diarization />; 
-        case Page.LIVE_CHAT: return <LiveChat />;
         case Page.PRESET:
         case Page.CUSTOM:
           return <VoiceLibrary onNavigate={setCurrentPage} initialTab={currentPage} />;
@@ -101,6 +100,7 @@ const AppContent: React.FC = () => {
 
       {currentModule === AppModule.AI_VOICE && renderAiVoiceModule()}
       {currentModule === AppModule.PROMPT_LIBRARY && renderPromptModule()}
+      
       {currentModule === AppModule.DIGITAL_HUMAN && (
         <main className="relative z-10 w-full h-screen">
           <DigitalHuman />

@@ -13,7 +13,6 @@ export const translations = {
     'tts': '语音合成',
     'voice_cloning': '声音克隆',
     'diarization': '声纹识别',
-    'live_chat': '实时对话',
     'global_settings': '全局设置',
     'home_title': '让文字“声”临其境',
     'home_input_placeholder': '在此输入您想要转换成语音的文字...',
@@ -69,14 +68,6 @@ export const translations = {
     'prompt_section_category': '任务分类',
     'prompt_section_model': '推荐模型',
     'prompt_section_tags': '热门标签',
-    // Fix: Added missing keys for LiveChat module
-    'live_desc': '基于 Gemini 2.5 架构的超低延迟语音交互',
-    'live_status_idle': '准备就绪',
-    'live_status_listening': '正在倾听',
-    'live_status_speaking': '正在回复',
-    'live_status_error': '连接异常',
-    'live_stop': '结束对话',
-    'live_start': '开启对话',
   },
   EN: {
     'main_menu': 'Main Menu',
@@ -89,7 +80,6 @@ export const translations = {
     'tts': 'TTS',
     'voice_cloning': 'Voice Cloning',
     'diarization': 'Voiceprint ID',
-    'live_chat': 'Live Chat',
     'global_settings': 'Settings',
     'home_title': 'Let text come to life',
     'home_input_placeholder': 'Type something here to convert to speech...',
@@ -145,14 +135,6 @@ export const translations = {
     'prompt_section_category': 'Categories',
     'prompt_section_model': 'Recommended Models',
     'prompt_section_tags': 'Popular Tags',
-    // Fix: Added missing keys for LiveChat module
-    'live_desc': 'Ultra-low latency voice interaction powered by Gemini 2.5',
-    'live_status_idle': 'Ready',
-    'live_status_listening': 'Listening',
-    'live_status_speaking': 'Speaking',
-    'live_status_error': 'Error',
-    'live_stop': 'Stop Session',
-    'live_start': 'Start Session',
   }
 };
 

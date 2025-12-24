@@ -264,11 +264,11 @@ const Diarization: React.FC = () => {
             
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-4 custom-scrollbar scroll-smooth relative">
                {!isProcessing && !hasSegments && (
-                 <div className="h-full flex flex-col items-center justify-center space-y-8 pb-48">
-                    <div className="opacity-10">
+                 <div className="h-full flex flex-col items-center justify-center pb-12">
+                    <div className="opacity-10 translate-y-4">
                        <Users size={80} />
                     </div>
-                    <div className="flex flex-col items-center gap-6">
+                    <div className="flex flex-col items-center gap-4 translate-y-6">
                        <p className="text-[12px] font-medium uppercase tracking-[0.4em] text-center text-white/40 leading-loose">暂无对话记录<br/>请上传音频或开始实时录音</p>
                        <div className="flex flex-col items-center gap-4">
                           {renderUploadControls(true)}

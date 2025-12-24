@@ -8,17 +8,17 @@ import {
   Loader2,
   Settings2,
   Edit3,
-  Check
+  Check,
+  History as HistoryIcon
 } from 'lucide-react';
 import { RANDOM_READING_TEXTS, translateCategory } from '../../constants';
 import { Voice } from '../../types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVoices } from '../../contexts/VoiceContext';
 import { usePlayer } from '../../contexts/PlayerContext';
-import { TextShimmerWave } from '../../components/TextShimmerWave';
-import { AIVoiceInput } from '../../components/AIVoiceInput';
 import { StarButton } from '../../components/StarButton';
 import { SciFiLoader } from '../../components/SciFiLoader';
+import { AIVoiceInput } from '../../components/AIVoiceInput';
 
 const VoiceCloning: React.FC = () => {
   const { voices, addVoice, deleteVoice, updateVoice, registerSpeaker } = useVoices();
@@ -33,6 +33,10 @@ const VoiceCloning: React.FC = () => {
   const [description, setDescription] = useState('');
   const [isCloning, setIsCloning] = useState(false);
   
+  // Edit logic
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editValue, setEditValue] = useState('');
+
   // Toast state
   const [showToast, setShowToast] = useState(false);
 
@@ -67,46 +71,58 @@ const VoiceCloning: React.FC = () => {
      
      setTimeout(() => {
        setIsCloning(false);
-       const isSuccess = true; // Mock success
+       const voiceId = `custom_${Date.now()}`;
+       const avatarUrl = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${projectName}`;
        
-       if (isSuccess) {
-         const voiceId = `custom_${Date.now()}`;
-         const avatarUrl = `https://api.dicebear.com/7.x/pixel-art/svg?seed=${projectName}`;
-         
-         const newVoice: Voice = {
-           id: voiceId,
-           name: projectName,
-           gender: 'Male',
-           language: 'Chinese',
-           tags: [],
-           notes: description,
-           category: 'Character',
-           avatarUrl: avatarUrl,
-           isCustom: true,
-           isPublic: true,
-           previewUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
-           source: 'custom'
-         };
+       const newVoice: Voice = {
+         id: voiceId,
+         name: projectName,
+         gender: 'Male',
+         language: 'Chinese',
+         tags: [],
+         notes: description,
+         category: 'Character',
+         avatarUrl: avatarUrl,
+         isCustom: true,
+         isPublic: true,
+         previewUrl: "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3",
+         source: 'custom'
+       };
 
-         // Sync to Voice Library
-         addVoice(newVoice);
-         
-         // Sync to Voiceprint Registry (Speaker Center)
-         registerSpeaker({
-            id: voiceId,
-            name: projectName,
-            color: 'bg-spark-accent',
-            isKnown: true,
-            avatarSeed: projectName,
-            source: 'cloned' // Mark as cloned
-         });
+       addVoice(newVoice);
+       registerSpeaker({
+          id: voiceId,
+          name: projectName,
+          color: 'bg-spark-accent',
+          isKnown: true,
+          avatarSeed: projectName,
+          source: 'cloned'
+       });
 
-         setShowToast(true);
-         setProjectName('');
-         setDescription('');
-         setFile(null);
-       }
+       setShowToast(true);
+       setProjectName('');
+       setDescription('');
+       setFile(null);
      }, 3500);
+  };
+
+  const startEdit = (voice: Voice, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEditingId(voice.id);
+    setEditValue(voice.name);
+  };
+
+  const saveEdit = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    updateVoice(id, { name: editValue });
+    setEditingId(null);
+  };
+
+  const handleDelete = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if(confirm('确定要删除此克隆音色吗？')) {
+      deleteVoice(id);
+    }
   };
 
   return (
@@ -130,18 +146,10 @@ const VoiceCloning: React.FC = () => {
               <div className="space-y-6">
                  <div className="flex items-center gap-6">
                     <motion.div 
-                      animate={{ 
-                        boxShadow: [
-                          "0 0 15px rgba(59,130,246,0.3)", 
-                          "0 0 35px rgba(59,130,246,0.6)", 
-                          "0 0 15px rgba(59,130,246,0.3)"
-                        ] 
-                      }}
+                      animate={{ boxShadow: ["0 0 15px rgba(59,130,246,0.3)", "0 0 35px rgba(59,130,246,0.6)", "0 0 15px rgba(59,130,246,0.3)"] }}
                       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                       className="w-14 h-14 rounded-2xl bg-gradient-to-br from-spark-accent to-blue-600 border border-white/30 flex items-center justify-center text-white font-black text-2xl shrink-0 shadow-[0_0_20px_rgba(59,130,246,0.5)]"
-                    >
-                      1
-                    </motion.div>
+                    >1</motion.div>
                     <div className="flex flex-col">
                       <h2 className="text-lg font-bold text-white uppercase tracking-[0.15em] leading-none">采集样本</h2>
                       <span className="text-[10px] text-white/30 uppercase tracking-widest mt-1.5 font-medium">Collect Audio Samples</span>
@@ -155,7 +163,6 @@ const VoiceCloning: React.FC = () => {
                         </button>
                     </div>
                  </div>
-
                  <div className="mt-4 px-2">
                    {activeTab === 'upload' ? (
                      <div onClick={() => fileInputRef.current?.click()} className="h-40 border-2 border-dashed border-white/10 rounded-[2rem] bg-white/[0.01] hover:bg-white/[0.03] transition-all flex flex-col items-center justify-center cursor-pointer group shadow-inner">
@@ -182,18 +189,10 @@ const VoiceCloning: React.FC = () => {
               <div className={`space-y-6 transition-all duration-700 ${!file ? 'opacity-20 pointer-events-none grayscale' : 'opacity-100'}`}>
                  <div className="flex items-center gap-6">
                     <motion.div 
-                      animate={file ? { 
-                        boxShadow: [
-                          "0 0 15px rgba(59,130,246,0.3)", 
-                          "0 0 35px rgba(59,130,246,0.6)", 
-                          "0 0 15px rgba(59,130,246,0.3)"
-                        ] 
-                      } : {}}
+                      animate={file ? { boxShadow: ["0 0 15px rgba(59,130,246,0.3)", "0 0 35px rgba(59,130,246,0.6)", "0 0 15px rgba(59,130,246,0.3)"] } : {}}
                       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                       className="w-14 h-14 rounded-2xl bg-gradient-to-br from-spark-accent to-blue-600 border border-white/30 flex items-center justify-center text-white font-black text-2xl shrink-0 shadow-[0_0_20px_rgba(59,130,246,0.5)]"
-                    >
-                      2
-                    </motion.div>
+                    >2</motion.div>
                     <div className="flex flex-col">
                       <h2 className="text-lg font-bold text-white uppercase tracking-[0.15em] leading-none">配置训练</h2>
                       <span className="text-[10px] text-white/30 uppercase tracking-widest mt-1.5 font-medium">Configure Voice Training</span>
@@ -227,36 +226,57 @@ const VoiceCloning: React.FC = () => {
           </div>
         </div>
 
-        {/* Sidebar */}
+        {/* Sidebar: Styled to match ASR/Diarization */}
         <div className="w-80 bg-black/20 backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col shrink-0">
-            <div className="h-14 border-b border-white/10 flex items-center px-6 gap-3 bg-white/[0.02] shrink-0">
-                <Settings2 size={18} className="text-spark-accent" />
-                <span className="text-[13px] font-bold text-white uppercase tracking-[0.25em] drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">自定义音色库</span>
+            <div className="flex items-center gap-3 px-5 border-b border-white/5 bg-white/[0.02] shrink-0 h-12">
+                <HistoryIcon size={16} className="text-spark-accent" />
+                <span className="text-[14px] font-medium text-white uppercase tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">自定义音色库</span>
             </div>
-            <div className="flex-1 overflow-y-auto px-4 py-6 space-y-3 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2.5 custom-scrollbar">
               {customVoices.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center p-8 space-y-4 text-white/60">
-                  <FileAudio size={56} className="opacity-10 mb-2" />
-                  <p className="text-[11px] font-black uppercase tracking-[0.3em] leading-relaxed">暂无自定义记录<br/><span className="text-[9px] opacity-40">开始克隆您的第一个声音</span></p>
+                  <FileAudio size={40} className="opacity-10 mb-2" />
+                  <p className="text-[12px] font-medium uppercase tracking-widest">暂无记录</p>
                 </div>
               ) : (
                 customVoices.map((voice) => {
                   const playing = currentVoice?.id === voice.id && isPlaying;
+                  const isEditing = editingId === voice.id;
                   return (
-                    <div key={voice.id} className={`glass-panel group p-4 rounded-2xl border transition-all duration-300 flex flex-col gap-2 shadow-sm ${playing ? 'bg-white/15 border-white/40' : 'border-white/5 hover:border-white/20 hover:bg-white/[0.08]'}`}>
-                      <div className="flex items-center gap-4">
-                          <div className="relative cursor-pointer shrink-0" onClick={() => playVoice(voice)}>
-                             <img src={voice.avatarUrl} className="w-10 h-10 rounded-xl border border-white/10 object-cover shadow-lg" alt={voice.name} />
-                             <div className={`absolute inset-0 rounded-xl bg-black/40 flex items-center justify-center transition-opacity ${playing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
-                                {playing ? <Pause size={14} fill="white" className="text-white" /> : <Play size={14} fill="white" className="text-white ml-0.5" />}
-                             </div>
-                          </div>
-                          <div className="flex-1 min-w-0 text-left">
-                             <h4 className="text-sm font-bold text-white truncate tracking-tight">{voice.name}</h4>
-                             {voice.notes && (
-                               <p className="text-[10px] text-white/30 italic truncate mt-0.5">“{voice.notes}”</p>
+                    <div key={voice.id} className={`p-3 rounded-xl bg-white/5 backdrop-blur-sm border transition-all group relative ${isEditing ? 'border-spark-accent/50 ring-1 ring-spark-accent/20 bg-white/10' : 'border-white/5 hover:border-spark-accent/30'}`}>
+                      <div className="flex items-center gap-3">
+                          <div className="relative cursor-pointer shrink-0" onClick={() => !isEditing && playVoice(voice)}>
+                             <img src={voice.avatarUrl} className="w-10 h-10 rounded-lg border border-white/10 object-cover shadow-lg" alt={voice.name} />
+                             {!isEditing && (
+                               <div className={`absolute inset-0 rounded-lg bg-black/40 flex items-center justify-center transition-opacity ${playing ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                                  {playing ? <Pause size={14} fill="white" className="text-white" /> : <Play size={14} fill="white" className="text-white ml-0.5" />}
+                               </div>
                              )}
                           </div>
+                          
+                          <div className="flex-1 min-w-0">
+                             {isEditing ? (
+                               <input 
+                                 autoFocus
+                                 value={editValue}
+                                 onChange={e => setEditValue(e.target.value)}
+                                 onKeyDown={e => e.key === 'Enter' && saveEdit(voice.id, e as any)}
+                                 className="w-full bg-black/40 border border-white/20 rounded-md px-1.5 py-0.5 text-xs text-white outline-none focus:border-spark-accent"
+                               />
+                             ) : (
+                               <h4 className={`text-[13px] font-medium truncate tracking-tight ${playing ? 'text-spark-accent' : 'text-white'}`}>{voice.name}</h4>
+                             )}
+                             <p className="text-[9px] text-white/30 uppercase tracking-widest font-medium mt-0.5">Custom ID: {voice.id.slice(-4)}</p>
+                          </div>
+
+                          {!isEditing ? (
+                             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onClick={(e) => startEdit(voice, e)} className="p-1.5 text-white/30 hover:text-white hover:bg-white/10 rounded-md transition-all"><Edit3 size={12}/></button>
+                                <button onClick={(e) => handleDelete(voice.id, e)} className="p-1.5 text-white/30 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-all"><Trash2 size={12}/></button>
+                             </div>
+                          ) : (
+                             <button onClick={(e) => saveEdit(voice.id, e)} className="p-1.5 bg-spark-accent rounded-md text-white shadow-lg"><Check size={12}/></button>
+                          )}
                       </div>
                     </div>
                   );
@@ -273,7 +293,7 @@ const VoiceCloning: React.FC = () => {
            </div>
            <div className="flex flex-col">
               <span className="font-black text-sm tracking-widest uppercase">训练完成</span>
-              <span className="text-[10px] text-black/40 font-bold uppercase tracking-widest">已成功同步至全局声纹中心</span>
+              <span className="text-[10px] text-black/40 font-bold uppercase tracking-widest">已成功同步至全局声纹库</span>
            </div>
         </div>,
         document.body

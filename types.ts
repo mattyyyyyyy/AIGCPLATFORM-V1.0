@@ -8,7 +8,6 @@ export enum Page {
   TTS = 'TTS',
   VOICE_CLONING = 'VOICE_CLONING',
   VOICEPRINT = 'VOICEPRINT', // 重命名：声纹识别
-  LIVE_CHAT = 'LIVE_CHAT', // Added Live Chat
   
   // Prompt Module
   PROMPT_DISCOVER = 'PROMPT_DISCOVER',
@@ -20,12 +19,7 @@ export enum Page {
 export enum AppModule {
   DIGITAL_HUMAN = 'DIGITAL_HUMAN',
   AI_VOICE = 'AI_VOICE',
-  PROMPT_LIBRARY = 'PROMPT_LIBRARY',
-  // Digital Human Sub-modules
-  DH_AUDIO = '2d-audio',
-  DH_CHAT = '2d-chat',
-  DH_AVATAR = '2d-avatar',
-  DH_3D = '3d-avatar'
+  PROMPT_LIBRARY = 'PROMPT_LIBRARY'
 }
 
 export type PromptView = 'HOME';
@@ -36,7 +30,7 @@ export interface Voice {
   gender: 'Male' | 'Female';
   language: 'Chinese' | 'English';
   tags: string[];
-  notes?: string; // Added for custom voices
+  notes?: string; 
   category: 'Social Media' | 'Character' | 'Narrator' | 'News';
   previewUrl?: string;
   avatarUrl: string;

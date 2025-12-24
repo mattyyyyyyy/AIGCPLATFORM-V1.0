@@ -1,5 +1,5 @@
 
-import { Home, Mic, Speaker, Copy, Library, User, Activity, Users, Zap } from 'lucide-react';
+import { Home, Mic, Speaker, Copy, Library, User, Activity, Users } from 'lucide-react';
 import React from 'react';
 import { NAV_GROUPS } from '../../../constants';
 import { useLanguage } from '../../../contexts/LanguageContext';
@@ -22,7 +22,6 @@ const VoiceSidebar: React.FC<VoiceSidebarProps> = ({ currentPage, onNavigate }) 
       case 'Speaker': return Speaker;
       case 'Copy': return Copy;
       case 'Users': return Users;
-      case 'Zap': return Zap;
       default: return Activity;
     }
   };
@@ -39,7 +38,6 @@ const VoiceSidebar: React.FC<VoiceSidebarProps> = ({ currentPage, onNavigate }) 
         case Page.TTS: return 'tts';
         case Page.VOICE_CLONING: return 'voice_cloning';
         case Page.VOICEPRINT: return 'diarization';
-        case Page.LIVE_CHAT: return 'live_chat';
         default: return id;
     }
   };
