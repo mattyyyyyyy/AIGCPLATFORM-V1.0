@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import { AnimatePresence, motion } from 'framer-motion';
 
 // AI Voice Module Components
 import Home from './pages/voice/Home';
@@ -94,18 +95,51 @@ const AppContent: React.FC = () => {
     );
   };
 
+  // 定义统一的过渡动画配置
+  const pageTransition = {
+    initial: { opacity: 0, filter: 'blur(8px)', scale: 0.99 },
+    animate: { opacity: 1, filter: 'blur(0px)', scale: 1 },
+    exit: { opacity: 0, filter: 'blur(8px)', scale: 1.01 },
+    transition: { duration: 0.4, ease: "easeInOut" } // Reduced duration and removed custom easing for snappier feel
+  };
+
   return (
-    <div className="relative flex flex-col min-h-screen w-full">
+    <div className="relative flex flex-col min-h-screen w-full overflow-hidden">
       <Navbar />
 
-      {currentModule === AppModule.AI_VOICE && renderAiVoiceModule()}
-      {currentModule === AppModule.PROMPT_LIBRARY && renderPromptModule()}
-      
-      {currentModule === AppModule.DIGITAL_HUMAN && (
-        <main className="relative z-10 w-full h-screen">
-          <DigitalHuman />
-        </main>
-      )}
+      <AnimatePresence>
+        {currentModule === AppModule.AI_VOICE && (
+          <motion.div
+            key="module-voice"
+            {...pageTransition}
+            className="w-full h-full absolute inset-0"
+          >
+            {renderAiVoiceModule()}
+          </motion.div>
+        )}
+        
+        {currentModule === AppModule.PROMPT_LIBRARY && (
+          <motion.div
+            key="module-prompt"
+            {...pageTransition}
+            className="w-full h-full absolute inset-0"
+          >
+            {renderPromptModule()}
+          </motion.div>
+        )}
+        
+        {currentModule === AppModule.DIGITAL_HUMAN && (
+          <motion.div
+            key="module-digital"
+            {...pageTransition}
+            className="w-full h-full absolute inset-0"
+          >
+            <main className="relative z-10 w-full h-screen">
+              <DigitalHuman />
+            </main>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
