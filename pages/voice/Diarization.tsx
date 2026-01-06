@@ -356,9 +356,9 @@ const Diarization: React.FC = () => {
                   const isCloned = speaker.source === 'cloned';
                   
                   return (
-                    <div key={speaker.id} className={`p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/5 transition-all group/card ${isEditing ? 'border-spark-accent/40 bg-spark-accent/5' : 'hover:border-white/20 hover:bg-white/10'} ${activeInTranscript && isRecording ? 'ring-1 ring-spark-accent/40 bg-spark-accent/[0.02]' : ''}`}>
-                      <div className="flex items-center gap-4">
-                         <div className={`w-11 h-11 rounded-xl ${speaker.color} overflow-hidden shrink-0 border border-white/10 relative shadow-lg`}>
+                    <div key={speaker.id} className={`p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/5 transition-all group/card ${isEditing ? 'border-spark-accent/40 bg-spark-accent/5' : 'hover:border-white/20 hover:bg-white/10'} ${activeInTranscript && isRecording ? 'ring-1 ring-spark-accent/40 bg-spark-accent/[0.02]' : ''}`}>
+                      <div className="flex items-center gap-3">
+                         <div className={`w-10 h-10 rounded-lg ${speaker.color} overflow-hidden shrink-0 border border-white/10 relative shadow-lg`}>
                             <img src={getAvatarUrl(speaker)} alt={speaker.name} className="w-full h-full object-cover" />
                             {activeInTranscript && isRecording && (
                               <div className="absolute inset-0 bg-spark-accent/30 flex items-center justify-center backdrop-blur-[1px]">
@@ -374,7 +374,7 @@ const Diarization: React.FC = () => {
                                    value={tempName} 
                                    onChange={(e) => setTempName(e.target.value)} 
                                    onKeyDown={(e) => e.key === 'Enter' && saveSpeakerName()} 
-                                   className="w-full bg-black/60 border border-white/20 rounded-lg px-2.5 py-1.5 text-sm font-medium text-white outline-none focus:border-spark-accent/50" 
+                                   className="w-full bg-black/60 border border-white/20 rounded-lg px-2.5 py-1.5 text-xs font-medium text-white outline-none focus:border-spark-accent/50" 
                                  />
                                  <button onClick={saveSpeakerName} className="p-2 bg-spark-accent rounded-lg text-white shadow-lg"><Check size={14}/></button>
                               </div>

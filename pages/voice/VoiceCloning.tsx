@@ -212,14 +212,14 @@ const VoiceCloning: React.FC = () => {
             </div>
           </div>
 
-          <div className="h-20 border-t border-white/10 bg-black/60 backdrop-blur-3xl flex justify-between items-center px-10 shrink-0 relative z-20">
+          <div className="h-16 border-t border-white/10 bg-black/60 backdrop-blur-3xl flex justify-between items-center px-6 shrink-0 relative z-20">
               <div className="flex items-center gap-3">
                  <div className="w-2 h-2 rounded-full bg-spark-accent shadow-[0_0_10px_rgba(59,130,246,0.8)] animate-pulse" />
                  <span className="text-[10px] font-bold text-white/40 uppercase tracking-[0.2em]">高质量录音样本将获得更完美的克隆效果</span>
               </div>
               <div className="flex items-center gap-6">
-                 <button onClick={() => {setFile(null); setProjectName(''); setDescription('');}} className="p-3 text-white/20 hover:text-white transition-all hover:bg-white/5 rounded-xl"><RotateCcw size={18} /></button>
-                 <StarButton onClick={handleCreate} disabled={!file || !projectName || isCloning} className="min-w-[180px] h-12 !text-sm !font-black !tracking-[0.2em]">
+                 <button onClick={() => {setFile(null); setProjectName(''); setDescription('');}} className="p-2.5 text-white/20 hover:text-white transition-all hover:bg-white/5 rounded-xl"><RotateCcw size={18} /></button>
+                 <StarButton onClick={handleCreate} disabled={!file || !projectName || isCloning} className="min-w-[180px] h-10 !text-sm !font-black !tracking-[0.2em]">
                    {isCloning ? "正在克隆中" : "开始训练模型"}
                  </StarButton>
               </div>

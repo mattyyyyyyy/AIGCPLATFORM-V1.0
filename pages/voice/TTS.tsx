@@ -156,7 +156,11 @@ const TTS: React.FC = () => {
             <div className="flex-1 flex flex-col h-full border-r border-white/5">
                 <div className="flex items-center justify-between px-5 border-b border-white/5 bg-white/[0.02] shrink-0 h-12">
                     <div className="flex items-center gap-2">
-                       {activeTab === 'settings' && <Settings2 size={16} className="text-spark-accent" />}
+                       {activeTab === 'settings' ? (
+                         <Settings2 size={16} className="text-spark-accent" />
+                       ) : (
+                         <History size={16} className="text-spark-accent" />
+                       )}
                        <span className="text-[14px] font-medium text-white uppercase tracking-widest drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]">
                          {activeTab === 'settings' ? t('voice_effects') : '合成历史'}
                        </span>
@@ -167,7 +171,7 @@ const TTS: React.FC = () => {
                 </div>
                 <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 custom-scrollbar">
                   {activeTab === 'settings' ? (
-                    <div className="space-y-6 animate-in fade-in duration-300">
+                    <div className="space-y-6">
                       <div onClick={() => setShowVoiceModal(true)} className="group p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/5 hover:border-spark-accent/30 cursor-pointer transition-all flex items-center gap-3">
                         <img src={selectedVoice.avatarUrl} alt={selectedVoice.name} className="w-10 h-10 rounded-lg object-cover border border-white/10" />
                         <div className="flex-1 min-w-0">
